@@ -1,8 +1,22 @@
 ---
 name: "/help"
-introducedIn: "1.0.0"
-description: "Claude Codeの使い方とコマンド一覧を表示"
+introducedIn: "2.0.12"
+description: "Improvements to `/help`"
 category: slash
 ---
 
-利用可能なスラッシュコマンドの一覧と簡単な説明を表示する。
+# /help
+
+Improvements to `/help`
+
+## 関連リリース
+
+### v2.1.105
+
+- Fixed `/help` dropping the tab bar, Shortcuts heading, and footer at short terminal heights
+### v2.1.47
+
+- Fixed built-in slash commands (`/help`, `/model`, `/compact`, etc.) being hidden from the autocomplete dropdown when many user skills are installed (anthropics/claude-code#22020)
+### v2.0.12
+
+- Improvements to `/help`

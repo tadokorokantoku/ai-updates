@@ -1,16 +1,16 @@
 ---
 name: "/init"
-introducedIn: "1.0.0"
-description: "CLAUDE.md ファイルを生成し、リポジトリのドキュメントを初期化する"
+introducedIn: "2.1.108"
+description: "The model can now discover and invoke built-in slash commands like `/init`, `/review`, and `/security-review` via the Skill tool"
 category: slash
 ---
 
-カレントディレクトリを解析して、プロジェクト構造・主要コマンド・規約を含む `CLAUDE.md` を生成する。
+# /init
 
-## 使い方
+The model can now discover and invoke built-in slash commands like `/init`, `/review`, and `/security-review` via the Skill tool
 
-```
-/init
-```
+## 関連リリース
 
-既存の `CLAUDE.md` がある場合は上書き確認される。
+### v2.1.108
+
+- The model can now discover and invoke built-in slash commands like `/init`, `/review`, and `/security-review` via the Skill tool
