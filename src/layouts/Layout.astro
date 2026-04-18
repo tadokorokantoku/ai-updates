@@ -1,0 +1,238 @@
+---
+import '../styles/global.css';
+import { getCollection } from 'astro:content';
+
+interface Props {
+  title?: string;
+}
+
+const { title = 'Claude Code Updates' } = Astro.props;
+
+const releases = (await getCollection('releases')).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+const commands = (await getCollection('commands')).sort((a, b) =>
+  a.data.name.localeCompare(b.data.name)
+);
+
+type Release = (typeof releases)[number];
+type Command = (typeof commands)[number];
+
+const releasesByMajor = releases.reduce<Record<string, Release[]>>((acc, r) => {
+  const major = r.data.version.split('.')[0];
+  const key = `v${major}.x`;
+  (acc[key] ??= []).push(r);
+  return acc;
+}, {});
+const releaseGroups = Object.entries(releasesByMajor).sort(([a], [b]) =>
+  b.localeCompare(a, undefined, { numeric: true })
+);
+
+const categoryLabels: Record<Command['data']['category'], string> = {
+  slash: 'スラッシュコマンド',
+  cli: 'CLIコマンド',
+  flag: 'フラグ',
+};
+const commandsByCategory = commands.reduce<Record<string, Command[]>>((acc, c) => {
+  (acc[c.data.category] ??= []).push(c);
+  return acc;
+}, {});
+const commandGroups = Object.entries(commandsByCategory).sort(([a], [b]) =>
+  a.localeCompare(b)
+);
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => path === href.replace(/\/$/, '');
+
+const releasesSectionOpen =
+  isActive('/releases') || releases.some((r) => isActive(`/releases/${r.data.version}`));
+const commandsSectionOpen =
+  isActive('/commands') || commands.some((c) => isActive(`/commands/${c.id}`));
+---
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen bg-slate-50 text-slate-900 antialiased">
+    <header class="sticky top-0 z-10 border-b border-slate-200 bg-white/90 backdrop-blur">
+      <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
+        <a href="/" class="text-base font-bold tracking-tight">Claude Code Updates</a>
+        <a
+          href="https://github.com/anthropics/claude-code"
+          class="text-xs text-slate-500 hover:text-blue-600"
+          target="_blank"
+          rel="noopener"
+        >
+          GitHub →
+        </a>
+      </div>
+    </header>
+
+    <div class="mx-auto flex max-w-7xl gap-10 px-6 py-8">
+      <aside class="hidden w-64 shrink-0 md:block">
+        <nav class="sticky top-20 max-h-[calc(100vh-6rem)] space-y-2 overflow-y-auto pr-2 text-sm">
+          <details open={releasesSectionOpen} class="group/section">
+            <summary class="flex cursor-pointer items-center gap-1 rounded px-2 py-1.5 text-xs font-bold uppercase tracking-wider text-slate-600 hover:bg-slate-100">
+              <svg
+                class="h-3 w-3 shrink-0 transition-transform group-open/section:rotate-90"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M9 6l6 6-6 6" />
+              </svg>
+              リリース
+            </summary>
+            <div class="mt-1 ml-4 border-l border-slate-200 pl-2">
+              <a
+                href="/releases"
+                class:list={[
+                  'block rounded px-2 py-1 transition-colors',
+                  isActive('/releases')
+                    ? 'bg-blue-50 font-semibold text-blue-700'
+                    : 'text-slate-600 hover:bg-slate-100',
+                ]}
+              >
+                すべてのリリース
+              </a>
+              <div class="mt-1 space-y-1">
+                {releaseGroups.map(([groupName, items]) => {
+                  const groupOpen = items.some((r) => isActive(`/releases/${r.data.version}`));
+                  return (
+                    <details open={groupOpen} class="group/grp">
+                      <summary class="flex cursor-pointer items-center gap-1 rounded px-2 py-1 text-xs font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-700">
+                        <svg
+                          class="h-3 w-3 shrink-0 transition-transform group-open/grp:rotate-90"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path d="M9 6l6 6-6 6" />
+                        </svg>
+                        {groupName}
+                      </summary>
+                      <ul class="mt-0.5 ml-4 space-y-0.5 border-l border-slate-200 pl-2">
+                        {items.map((r) => {
+                          const href = `/releases/${r.data.version}`;
+                          return (
+                            <li>
+                              <a
+                                href={href}
+                                class:list={[
+                                  'block rounded px-2 py-1 transition-colors',
+                                  isActive(href)
+                                    ? 'bg-blue-50 font-semibold text-blue-700'
+                                    : 'text-slate-700 hover:bg-slate-100',
+                                ]}
+                              >
+                                v{r.data.version}
+                              </a>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </details>
+                  );
+                })}
+              </div>
+            </div>
+          </details>
+
+          <details open={commandsSectionOpen} class="group/section">
+            <summary class="flex cursor-pointer items-center gap-1 rounded px-2 py-1.5 text-xs font-bold uppercase tracking-wider text-slate-600 hover:bg-slate-100">
+              <svg
+                class="h-3 w-3 shrink-0 transition-transform group-open/section:rotate-90"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M9 6l6 6-6 6" />
+              </svg>
+              コマンド
+            </summary>
+            <div class="mt-1 ml-4 border-l border-slate-200 pl-2">
+              <a
+                href="/commands"
+                class:list={[
+                  'block rounded px-2 py-1 transition-colors',
+                  isActive('/commands')
+                    ? 'bg-blue-50 font-semibold text-blue-700'
+                    : 'text-slate-600 hover:bg-slate-100',
+                ]}
+              >
+                すべてのコマンド
+              </a>
+              <div class="mt-1 space-y-1">
+                {commandGroups.map(([cat, items]) => {
+                  const groupOpen = items.some((c) => isActive(`/commands/${c.id}`));
+                  return (
+                    <details open={groupOpen} class="group/grp">
+                      <summary class="flex cursor-pointer items-center gap-1 rounded px-2 py-1 text-xs font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-700">
+                        <svg
+                          class="h-3 w-3 shrink-0 transition-transform group-open/grp:rotate-90"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path d="M9 6l6 6-6 6" />
+                        </svg>
+                        {categoryLabels[cat as Command['data']['category']] ?? cat}
+                      </summary>
+                      <ul class="mt-0.5 ml-4 space-y-0.5 border-l border-slate-200 pl-2">
+                        {items.map((c) => {
+                          const href = `/commands/${c.id}`;
+                          return (
+                            <li>
+                              <a
+                                href={href}
+                                class:list={[
+                                  'block rounded px-2 py-1 font-mono text-xs transition-colors',
+                                  isActive(href)
+                                    ? 'bg-blue-50 font-semibold text-blue-700'
+                                    : 'text-slate-700 hover:bg-slate-100',
+                                ]}
+                              >
+                                {c.data.name}
+                              </a>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </details>
+                  );
+                })}
+              </div>
+            </div>
+          </details>
+        </nav>
+      </aside>
+
+      <main class="min-w-0 flex-1">
+        <slot />
+      </main>
+    </div>
+
+    <footer class="mt-16 border-t border-slate-200 bg-white">
+      <div class="mx-auto max-w-7xl px-6 py-6 text-center text-xs text-slate-500">
+        非公式のClaude Codeリリース情報サイト
+      </div>
+    </footer>
+  </body>
+</html>
