@@ -1,6 +1,19 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+@theme {
+  /* Per-theme accent palette. Defaults match the Claude Code theme; the
+     concrete values are overridden at runtime by an inline style on <body>
+     (see src/themes.ts and src/layouts/Layout.astro). */
+  --color-accent-50: #fdf6ef;
+  --color-accent-100: #fbe9d6;
+  --color-accent-200: #f6c89a;
+  --color-accent-400: #e8915a;
+  --color-accent-600: #d56b2c;
+  --color-accent-700: #b35422;
+  --color-accent-800: #8a4019;
+}
+
 @layer base {
   summary {
     list-style: none;

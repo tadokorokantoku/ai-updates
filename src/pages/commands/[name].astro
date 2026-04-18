@@ -15,10 +15,10 @@ const { Content } = await render(command);
 ---
 
 <Layout title={`${command.data.name} - Claude Code Updates`}>
-  <a href="/commands" class="text-sm text-blue-600 hover:underline">← コマンド一覧</a>
+  <a href="/commands" class="text-sm text-accent-600 hover:underline">← コマンド一覧</a>
 
   <header class="mt-4 mb-8">
-    <h1 class="font-mono text-4xl font-bold tracking-tight text-blue-700">
+    <h1 class="font-mono text-4xl font-bold tracking-tight text-accent-700">
       {command.data.name}
     </h1>
     <p class="mt-3 text-slate-700">{command.data.description}</p>
@@ -26,7 +26,7 @@ const { Content } = await render(command);
       <div class="flex gap-2">
         <dt class="text-slate-500">導入:</dt>
         <dd>
-          <a href={`/releases/${command.data.introducedIn}`} class="font-semibold text-blue-600 hover:underline">
+          <a href={`/releases/${command.data.introducedIn}`} class="font-semibold text-accent-600 hover:underline">
             v{command.data.introducedIn}
           </a>
         </dd>

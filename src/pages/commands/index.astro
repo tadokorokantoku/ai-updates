@@ -25,13 +25,13 @@ const deprecated = all.filter((c) => c.data.deprecated)
       {active.map((c) => (
         <tr class="hover:bg-slate-50">
           <td class="px-4 py-3">
-            <a href={`/commands/${c.id}`} class="font-mono font-semibold text-blue-700 hover:underline">
+            <a href={`/commands/${c.id}`} class="font-mono font-semibold text-accent-700 hover:underline">
               {c.data.name}
             </a>
           </td>
           <td class="px-4 py-3 text-slate-700">{c.data.description}</td>
           <td class="px-4 py-3 whitespace-nowrap">
-            <a href={`/releases/${c.data.introducedIn}`} class="text-blue-600 hover:underline">
+            <a href={`/releases/${c.data.introducedIn}`} class="text-accent-600 hover:underline">
               v{c.data.introducedIn}
             </a>
           </td>

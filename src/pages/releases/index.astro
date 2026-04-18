@@ -55,10 +55,10 @@ for (let w = 0; w < WEEKS; w++) {
 
 const levelClass = (n: number) => {
   if (n === 0) return 'fill-slate-200';
-  if (n === 1) return 'fill-blue-200';
-  if (n <= 3) return 'fill-blue-400';
-  if (n <= 6) return 'fill-blue-600';
-  return 'fill-blue-800';
+  if (n === 1) return 'fill-accent-200';
+  if (n <= 3) return 'fill-accent-400';
+  if (n <= 6) return 'fill-accent-600';
+  return 'fill-accent-800';
 };
 
 // month labels (week of first appearance) and year labels on a separate row above
@@ -107,10 +107,10 @@ const dateFmtShort = new Intl.DateTimeFormat('ja-JP', { dateStyle: 'medium' });
       <div class="flex items-center gap-1.5 text-xs text-slate-500">
         <span>少</span>
         <svg width="11" height="11" class="inline-block"><rect width="11" height="11" rx="2" class="fill-slate-200" /></svg>
-        <svg width="11" height="11" class="inline-block"><rect width="11" height="11" rx="2" class="fill-blue-200" /></svg>
-        <svg width="11" height="11" class="inline-block"><rect width="11" height="11" rx="2" class="fill-blue-400" /></svg>
-        <svg width="11" height="11" class="inline-block"><rect width="11" height="11" rx="2" class="fill-blue-600" /></svg>
-        <svg width="11" height="11" class="inline-block"><rect width="11" height="11" rx="2" class="fill-blue-800" /></svg>
+        <svg width="11" height="11" class="inline-block"><rect width="11" height="11" rx="2" class="fill-accent-200" /></svg>
+        <svg width="11" height="11" class="inline-block"><rect width="11" height="11" rx="2" class="fill-accent-400" /></svg>
+        <svg width="11" height="11" class="inline-block"><rect width="11" height="11" rx="2" class="fill-accent-600" /></svg>
+        <svg width="11" height="11" class="inline-block"><rect width="11" height="11" rx="2" class="fill-accent-800" /></svg>
         <span>多</span>
       </div>
     </div>
@@ -182,8 +182,8 @@ const dateFmtShort = new Intl.DateTimeFormat('ja-JP', { dateStyle: 'medium' });
       const hide = () => tip.classList.add('hidden');
 
       const flash = (el) => {
-        el.classList.add('ring-2', 'ring-blue-400', 'rounded-lg');
-        setTimeout(() => el.classList.remove('ring-2', 'ring-blue-400', 'rounded-lg'), 1600);
+        el.classList.add('ring-2', 'ring-accent-400', 'rounded-lg');
+        setTimeout(() => el.classList.remove('ring-2', 'ring-accent-400', 'rounded-lg'), 1600);
       };
 
       wrap.querySelectorAll('rect[data-date]').forEach((rect) => {
@@ -207,7 +207,7 @@ const dateFmtShort = new Intl.DateTimeFormat('ja-JP', { dateStyle: 'medium' });
       <li id={`release-${r.data.version}`} class="scroll-mt-24 transition-colors duration-700">
         <a
           href={`/releases/${r.data.version}`}
-          class="flex items-baseline justify-between rounded-lg border border-slate-200 bg-white px-5 py-4 transition-colors hover:border-blue-400"
+          class="flex items-baseline justify-between rounded-lg border border-slate-200 bg-white px-5 py-4 transition-colors hover:border-accent-400"
         >
           <div class="flex items-baseline gap-4">
             <span class="text-xl font-semibold">v{r.data.version}</span>

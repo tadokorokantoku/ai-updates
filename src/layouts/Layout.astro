@@ -1,12 +1,14 @@
 ---
 import '../styles/global.css';
 import { getCollection } from 'astro:content';
+import { DEFAULT_THEME, themeStyle, type ThemeKey } from '../themes';
 
 interface Props {
   title?: string;
+  theme?: ThemeKey;
 }
 
-const { title = 'Claude Code Updates' } = Astro.props;
+const { title = 'Claude Code Updates', theme = DEFAULT_THEME } = Astro.props;
 
 const releases = (await getCollection('releases')).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime()
@@ -58,13 +60,13 @@ const commandsSectionOpen =
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body class="min-h-screen bg-slate-50 text-slate-900 antialiased">
+  <body class="min-h-screen bg-slate-50 text-slate-900 antialiased" style={themeStyle(theme)}>
     <header class="sticky top-0 z-10 border-b border-slate-200 bg-white/90 backdrop-blur">
       <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
         <a href="/" class="text-base font-bold tracking-tight">Claude Code Updates</a>
         <a
           href="https://github.com/anthropics/claude-code"
-          class="text-xs text-slate-500 hover:text-blue-600"
+          class="text-xs text-slate-500 hover:text-accent-600"
           target="_blank"
           rel="noopener"
         >
@@ -97,7 +99,7 @@ const commandsSectionOpen =
                 class:list={[
                   'block rounded px-2 py-1 transition-colors',
                   isActive('/releases')
-                    ? 'bg-blue-50 font-semibold text-blue-700'
+                    ? 'bg-accent-50 font-semibold text-accent-700'
                     : 'text-slate-600 hover:bg-slate-100',
                 ]}
               >
@@ -132,7 +134,7 @@ const commandsSectionOpen =
                                 class:list={[
                                   'block rounded px-2 py-1 transition-colors',
                                   isActive(href)
-                                    ? 'bg-blue-50 font-semibold text-blue-700'
+                                    ? 'bg-accent-50 font-semibold text-accent-700'
                                     : 'text-slate-700 hover:bg-slate-100',
                                 ]}
                               >
@@ -170,7 +172,7 @@ const commandsSectionOpen =
                 class:list={[
                   'block rounded px-2 py-1 transition-colors',
                   isActive('/commands')
-                    ? 'bg-blue-50 font-semibold text-blue-700'
+                    ? 'bg-accent-50 font-semibold text-accent-700'
                     : 'text-slate-600 hover:bg-slate-100',
                 ]}
               >
@@ -205,7 +207,7 @@ const commandsSectionOpen =
                                 class:list={[
                                   'block rounded px-2 py-1 font-mono text-xs transition-colors',
                                   isActive(href)
-                                    ? 'bg-blue-50 font-semibold text-blue-700'
+                                    ? 'bg-accent-50 font-semibold text-accent-700'
                                     : 'text-slate-700 hover:bg-slate-100',
                                 ]}
                               >
