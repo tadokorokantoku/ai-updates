@@ -35,29 +35,29 @@ const summaryOf = (r: Release): string => {
   {items.map(({ release: r, Content, commands }) => (
     <li id={`release-${r.data.version}`} class="scroll-mt-32">
       <div
-        class="release-card group rounded-lg border border-slate-200 bg-white transition-colors hover:border-accent-400 [&.open]:border-accent-400 [&.open]:shadow-md"
+        class="release-card card card-border bg-base-100 transition-colors hover:border-primary [&.open]:border-primary [&.open]:shadow-md"
         data-version={r.data.version}
       >
         <button
           type="button"
-          class="release-toggle flex w-full cursor-pointer items-baseline justify-between gap-4 px-5 py-4 text-left"
+          class="release-toggle group/toggle flex w-full cursor-pointer items-baseline justify-between gap-4 px-5 py-4 text-left"
           aria-expanded="false"
         >
           <div class="flex shrink-0 items-baseline gap-4">
-            <Chevron class="self-center text-slate-400 transition-transform group-[.open]:rotate-90" />
+            <Chevron class="self-center text-base-content/40 transition-transform [.release-card.open_&]:rotate-90" />
             <span class="text-xl font-semibold">v{r.data.version}</span>
-            <span class="whitespace-nowrap text-xs text-slate-500">{dateFmt.format(r.data.date)}</span>
+            <span class="whitespace-nowrap text-xs text-base-content/60">{dateFmt.format(r.data.date)}</span>
           </div>
           {summaryOf(r) && (
             <span
-              class="hidden min-w-0 flex-1 truncate text-right text-xs text-slate-600 sm:inline"
+              class="hidden min-w-0 flex-1 truncate text-right text-xs text-base-content/70 sm:inline"
               set:html={renderInlineCode(summaryOf(r))}
             />
           )}
         </button>
         <div class="release-body">
           <div class="release-body-inner">
-            <div class="border-t border-slate-200 px-6 py-5">
+            <div class="border-t border-base-300 px-6 py-5">
               <div class="mb-4 flex items-start justify-between gap-4">
                 {r.data.highlights && r.data.highlights.length > 0 ? (
                   <HighlightPills highlights={r.data.highlights} />
@@ -66,7 +66,7 @@ const summaryOf = (r: Release): string => {
                 )}
                 <a
                   href={`${basePath}/${r.data.version}/detail`}
-                  class="shrink-0 whitespace-nowrap text-xs text-slate-500 hover:text-accent-600"
+                  class="link link-hover shrink-0 whitespace-nowrap text-xs text-base-content/60 hover:text-primary"
                 >
                   単独ページで開く →
                 </a>

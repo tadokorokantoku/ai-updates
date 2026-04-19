@@ -6,21 +6,31 @@ interface Props {
 }
 const { prefix, langSwitchHref, langSwitchLabel } = Astro.props;
 ---
-<header class="sticky top-0 z-10 border-b border-slate-200 bg-white/90 backdrop-blur">
-  <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
-    <a href={prefix || '/'} class="text-base font-bold tracking-tight">Claude Code Updates</a>
-    <div class="flex items-center gap-4">
-      <a href={langSwitchHref} class="text-xs text-slate-500 hover:text-accent-600">
-        {langSwitchLabel}
+<header class="sticky top-0 z-10 border-b border-base-300 bg-base-100/90 backdrop-blur">
+  <div class="navbar mx-auto max-w-7xl px-6">
+    <div class="flex-1">
+      <a href={prefix || '/'} class="btn btn-ghost px-2 text-base font-bold tracking-tight">
+        Claude Code Updates
       </a>
-      <a
-        href="https://github.com/anthropics/claude-code"
-        class="text-xs text-slate-500 hover:text-accent-600"
-        target="_blank"
-        rel="noopener"
-      >
-        GitHub →
-      </a>
+    </div>
+    <div class="flex-none">
+      <ul class="menu menu-horizontal gap-2 px-0 text-xs">
+        <li>
+          <a href={langSwitchHref} class="text-base-content/60 hover:text-primary">
+            {langSwitchLabel}
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://github.com/anthropics/claude-code"
+            class="text-base-content/60 hover:text-primary"
+            target="_blank"
+            rel="noopener"
+          >
+            GitHub →
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 </header>

@@ -49,11 +49,11 @@ const commandsSectionOpen =
   isActive(commandsRoot) || commands.some((c) => isActive(`${commandsRoot}/${c.id}`));
 
 const sectionSummaryClass =
-  'flex cursor-pointer items-center gap-1 rounded px-2 py-1.5 text-xs font-bold uppercase tracking-wider text-slate-600 hover:bg-slate-100';
+  'flex cursor-pointer items-center gap-1 rounded-field px-2 py-1.5 text-xs font-bold uppercase tracking-wider text-base-content/70 hover:bg-base-200';
 const groupSummaryClass =
-  'flex cursor-pointer items-center gap-1 rounded px-2 py-1 text-xs font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-700';
-const linkActiveClass = 'bg-accent-50 font-semibold text-accent-700';
-const linkInactiveClass = 'text-slate-600 hover:bg-slate-100';
+  'flex cursor-pointer items-center gap-1 rounded-field px-2 py-1 text-xs font-medium text-base-content/60 hover:bg-base-200 hover:text-base-content';
+const linkActiveClass = 'bg-primary/10 font-semibold text-primary';
+const linkInactiveClass = 'text-base-content/70 hover:bg-base-200';
 ---
 
 <aside class="hidden w-64 shrink-0 md:block">
@@ -63,7 +63,7 @@ const linkInactiveClass = 'text-slate-600 hover:bg-slate-100';
         <Chevron class="transition-transform group-open/section:rotate-90" />
         リリース
       </summary>
-      <div class="mt-1 ml-4 border-l border-slate-200 pl-2">
+      <div class="mt-1 ml-4 border-l border-base-300 pl-2">
         <a
           href={releasesRoot}
           class:list={[
@@ -82,7 +82,7 @@ const linkInactiveClass = 'text-slate-600 hover:bg-slate-100';
                   <Chevron class="transition-transform group-open/grp:rotate-90" />
                   {groupName}
                 </summary>
-                <ul class="mt-0.5 ml-4 space-y-0.5 border-l border-slate-200 pl-2">
+                <ul class="mt-0.5 ml-4 space-y-0.5 border-l border-base-300 pl-2">
                   {items.map((r) => {
                     const href = `${releasesRoot}/${r.data.version}`;
                     return (
@@ -91,7 +91,7 @@ const linkInactiveClass = 'text-slate-600 hover:bg-slate-100';
                           href={href}
                           class:list={[
                             'block rounded px-2 py-1 transition-colors',
-                            isActive(href) ? linkActiveClass : 'text-slate-700 hover:bg-slate-100',
+                            isActive(href) ? linkActiveClass : 'text-base-content/80 hover:bg-base-200',
                           ]}
                         >
                           v{r.data.version}
@@ -112,7 +112,7 @@ const linkInactiveClass = 'text-slate-600 hover:bg-slate-100';
         <Chevron class="transition-transform group-open/section:rotate-90" />
         コマンド
       </summary>
-      <div class="mt-1 ml-4 border-l border-slate-200 pl-2">
+      <div class="mt-1 ml-4 border-l border-base-300 pl-2">
         <a
           href={commandsRoot}
           class:list={[
@@ -131,7 +131,7 @@ const linkInactiveClass = 'text-slate-600 hover:bg-slate-100';
                   <Chevron class="transition-transform group-open/grp:rotate-90" />
                   {categoryLabels[cat as Command['data']['category']] ?? cat}
                 </summary>
-                <ul class="mt-0.5 ml-4 space-y-0.5 border-l border-slate-200 pl-2">
+                <ul class="mt-0.5 ml-4 space-y-0.5 border-l border-base-300 pl-2">
                   {items.map((c) => {
                     const href = `${commandsRoot}/${c.id}`;
                     return (
@@ -140,7 +140,7 @@ const linkInactiveClass = 'text-slate-600 hover:bg-slate-100';
                           href={href}
                           class:list={[
                             'block rounded px-2 py-1 font-mono text-xs transition-colors',
-                            isActive(href) ? linkActiveClass : 'text-slate-700 hover:bg-slate-100',
+                            isActive(href) ? linkActiveClass : 'text-base-content/80 hover:bg-base-200',
                           ]}
                         >
                           {c.data.name}

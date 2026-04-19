@@ -8,7 +8,7 @@ const commands = await getCollection('commands-ja');
 
 <Layout title="コマンド一覧 - Claude Code Updates" locale="ja">
   <h1 class="text-3xl font-bold tracking-tight">コマンド一覧</h1>
-  <p class="mt-2 text-sm text-slate-600">現在利用可能なコマンドと、それぞれの導入バージョン</p>
+  <p class="mt-2 text-sm text-base-content/70">現在利用可能なコマンドと、それぞれの導入バージョン</p>
 
   <CommandsTable commands={commands} basePath="/ja/commands" releasesBasePath="/ja/releases" />
 </Layout>

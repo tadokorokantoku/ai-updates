@@ -25,7 +25,7 @@ const langSwitchLabel = locale === 'ja' ? 'EN' : '日本語';
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body class="min-h-screen bg-slate-50 text-slate-900 antialiased" style={themeStyle(theme)}>
+  <body class="min-h-screen bg-base-200 text-base-content antialiased" style={themeStyle(theme)}>
     <SiteHeader prefix={prefix} langSwitchHref={langSwitchHref} langSwitchLabel={langSwitchLabel} />
 
     <div class="mx-auto flex max-w-7xl gap-10 px-6 py-8">
@@ -35,10 +35,10 @@ const langSwitchLabel = locale === 'ja' ? 'EN' : '日本語';
       </main>
     </div>
 
-    <footer class="mt-16 border-t border-slate-200 bg-white">
-      <div class="mx-auto max-w-7xl px-6 py-6 text-center text-xs text-slate-500">
-        非公式のClaude Codeリリース情報サイト
-      </div>
+    <footer class="footer footer-center mt-16 border-t border-base-300 bg-base-100 p-6">
+      <aside>
+        <p class="text-xs text-base-content/60">非公式のClaude Codeリリース情報サイト</p>
+      </aside>
     </footer>
   </body>
 </html>

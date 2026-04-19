@@ -19,10 +19,12 @@ const { commands, basePath } = Astro.props;
         <li>
           <a
             href={`${basePath}/${c.id}`}
-            class="block rounded-lg border border-slate-200 bg-white px-4 py-3 hover:border-accent-400"
+            class="card card-border card-sm bg-base-100 transition-colors hover:border-primary"
           >
-            <code class="font-mono text-sm font-semibold text-accent-700">{c.data.name}</code>
-            <span class="ml-3 text-sm text-slate-600" set:html={renderInlineCode(c.data.description)} />
+            <div class="card-body flex-row items-baseline gap-3 py-3">
+              <code class="font-mono text-sm font-semibold text-primary">{c.data.name}</code>
+              <span class="text-sm text-base-content/70" set:html={renderInlineCode(c.data.description)} />
+            </div>
           </a>
         </li>
       ))}

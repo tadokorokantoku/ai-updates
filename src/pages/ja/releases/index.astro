@@ -19,7 +19,7 @@ const items = await Promise.all(
 
 <Layout title="リリース一覧 - Claude Code Updates" locale="ja">
   <h1 class="text-3xl font-bold tracking-tight">リリース一覧</h1>
-  <p class="mt-2 text-sm text-slate-600">バージョンを選ぶと変更内容が表示されます</p>
+  <p class="mt-2 text-sm text-base-content/70">バージョンを選ぶと変更内容が表示されます</p>
 
   <ReleaseHeatmap releases={releases} />
   <ReleaseAccordion items={items} basePath="/ja/releases" commandsBasePath="/ja/commands" autoOpenLatest={true} />
