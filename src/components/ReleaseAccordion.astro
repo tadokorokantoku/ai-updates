@@ -24,6 +24,39 @@ const summaryOf = (r: Release): string => {
   const firstLine = body.split('\n').map((l) => l.trim()).find((l) => l.length > 0) ?? '';
   return firstLine.replace(/^[-*]\s+/, '');
 };
+
+type Tip =
+  | { kind: 'highlight'; html: string }
+  | { kind: 'command'; name: string };
+
+const MODEL_RE = /\b((?:Claude )?(?:Opus|Sonnet|Haiku)(?: \d+(?:\.\d+)?)?(?: x\w+)?)/g;
+const CODE_CHIP_BASE = 'mx-0.5 inline-block rounded px-1.5 py-0.5 font-mono text-xs font-semibold';
+const MODEL_CHIP = `${CODE_CHIP_BASE} !text-error !bg-error/15`;
+const CMD_CHIP = `${CODE_CHIP_BASE} !text-success !bg-success/15`;
+
+const escapeHtml = (s: string): string =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+const renderTooltipHtml = (text: string): string => {
+  const parts = escapeHtml(text).split(/(`[^`]+`)/);
+  return parts
+    .map((part) => {
+      if (part.startsWith('`') && part.endsWith('`') && part.length >= 2) {
+        return `<code class="${CMD_CHIP}">${part.slice(1, -1)}</code>`;
+      }
+      return part.replace(MODEL_RE, `<code class="${MODEL_CHIP}">$1</code>`);
+    })
+    .join('');
+};
+
+const tooltipOf = (r: Release, commands: Command[]): Tip | null => {
+  if (r.data.highlights && r.data.highlights.length > 0) {
+    return { kind: 'highlight', html: renderTooltipHtml(r.data.highlights[0]) };
+  }
+  if (commands.length > 0) return { kind: 'command', name: commands[0].data.name };
+  return null;
+};
 ---
 
 <ol
@@ -32,8 +65,22 @@ const summaryOf = (r: Release): string => {
   data-base-path={basePath}
   data-auto-open-latest={autoOpenLatest ? 'true' : 'false'}
 >
-  {items.map(({ release: r, Content, commands }) => (
-    <li id={`release-${r.data.version}`} class="scroll-mt-32">
+  {items.map(({ release: r, Content, commands }) => {
+    const tip = tooltipOf(r, commands);
+    return (
+    <li
+      id={`release-${r.data.version}`}
+      class={`scroll-mt-32 block ${tip ? 'tooltip tooltip-right tooltip-open w-full text-left [--tt-bg:color-mix(in_oklab,var(--color-primary)_10%,var(--color-base-100))] has-[.release-card.open]:after:!opacity-0 [&:has(.release-card.open)_.tooltip-content]:!opacity-0' : ''}`}
+    >
+      {tip && (
+        <div class="tooltip-content !max-w-[240px] !border !border-primary/25 !text-primary !shadow-sm">
+          {tip.kind === 'highlight' ? (
+            <span class="break-all" set:html={tip.html} />
+          ) : (
+            <span><code class={CMD_CHIP}>{tip.name}</code> の追加</span>
+          )}
+        </div>
+      )}
       <div
         class="release-card card card-border bg-base-100 transition-colors hover:border-primary [&.open]:border-primary [&.open]:shadow-md"
         data-version={r.data.version}
@@ -80,7 +127,8 @@ const summaryOf = (r: Release): string => {
         </div>
       </div>
     </li>
-  ))}
+    );
+  })}
 </ol>
 
 <script is:inline>
