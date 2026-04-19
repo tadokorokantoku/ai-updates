@@ -17,6 +17,13 @@ interface Props {
 }
 const { items, basePath, commandsBasePath, autoOpenLatest = false } = Astro.props;
 const dateFmt = new Intl.DateTimeFormat('ja-JP', { dateStyle: 'long' });
+
+const summaryOf = (r: Release): string => {
+  if (r.data.highlights && r.data.highlights.length > 0) return r.data.highlights[0];
+  const body = (r as unknown as { body?: string }).body ?? '';
+  const firstLine = body.split('\n').map((l) => l.trim()).find((l) => l.length > 0) ?? '';
+  return firstLine.replace(/^[-*]\s+/, '');
+};
 ---
 
 <ol
@@ -41,10 +48,10 @@ const dateFmt = new Intl.DateTimeFormat('ja-JP', { dateStyle: 'long' });
             <span class="text-xl font-semibold">v{r.data.version}</span>
             <span class="whitespace-nowrap text-xs text-slate-500">{dateFmt.format(r.data.date)}</span>
           </div>
-          {r.data.highlights && r.data.highlights.length > 0 && (
+          {summaryOf(r) && (
             <span
               class="hidden min-w-0 flex-1 truncate text-right text-xs text-slate-600 sm:inline"
-              set:html={renderInlineCode(r.data.highlights[0])}
+              set:html={renderInlineCode(summaryOf(r))}
             />
           )}
         </button>
