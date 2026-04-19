@@ -11,26 +11,44 @@ interface Props {
 }
 const { commands, basePath, releasesBasePath } = Astro.props;
 
+const versionKey = (v: string) =>
+  v.split('.').map((n) => n.padStart(4, '0')).join('.');
+
 const active = commands
   .filter((c) => !c.data.deprecated)
   .sort((a, b) => a.data.name.localeCompare(b.data.name));
 const deprecated = commands
   .filter((c) => c.data.deprecated)
   .sort((a, b) => a.data.name.localeCompare(b.data.name));
+
+const thButtonClass =
+  'flex cursor-pointer items-center gap-1 font-semibold hover:text-primary';
 ---
 
 <div class="mt-8 overflow-x-auto rounded-box border border-base-300 bg-base-100">
   <table class="table">
     <thead>
       <tr>
-        <th>コマンド</th>
+        <th>
+          <button type="button" data-sort="name" class={thButtonClass}>
+            コマンド<span class="sort-indicator text-base-content/40">↑</span>
+          </button>
+        </th>
         <th>説明</th>
-        <th class="whitespace-nowrap">導入バージョン</th>
+        <th class="whitespace-nowrap">
+          <button type="button" data-sort="version" class={thButtonClass}>
+            導入バージョン<span class="sort-indicator text-base-content/40">⇅</span>
+          </button>
+        </th>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="commands-tbody">
       {active.map((c) => (
-        <tr class="hover:bg-base-200">
+        <tr
+          class="hover:bg-base-200"
+          data-name={c.data.name}
+          data-version={versionKey(c.data.introducedIn)}
+        >
           <td>
             <a href={`${basePath}/${c.id}`} class="link link-primary font-mono font-semibold no-underline hover:underline">
               {c.data.name}
@@ -61,3 +79,52 @@ const deprecated = commands
     </ul>
   </section>
 )}
+
+<script is:inline>
+  (() => {
+    const tbody = document.getElementById('commands-tbody');
+    if (!tbody) return;
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    const buttons = document.querySelectorAll('[data-sort]');
+
+    const defaultDir = { name: 'asc', version: 'desc' };
+    let state = { key: 'name', dir: 'asc' };
+
+    const compareBy = (key) => (a, b) =>
+      a.dataset[key].localeCompare(b.dataset[key], undefined, { numeric: false });
+
+    const apply = () => {
+      const sorted = [...rows].sort(compareBy(state.key));
+      if (state.dir === 'desc') sorted.reverse();
+      sorted.forEach((r) => tbody.appendChild(r));
+      buttons.forEach((btn) => {
+        const k = btn.dataset.sort;
+        const ind = btn.querySelector('.sort-indicator');
+        if (!ind) return;
+        if (k === state.key) {
+          ind.textContent = state.dir === 'asc' ? '↑' : '↓';
+          ind.classList.remove('text-base-content/40');
+          ind.classList.add('text-primary');
+        } else {
+          ind.textContent = '⇅';
+          ind.classList.add('text-base-content/40');
+          ind.classList.remove('text-primary');
+        }
+      });
+    };
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const k = btn.dataset.sort;
+        if (state.key === k) {
+          state.dir = state.dir === 'asc' ? 'desc' : 'asc';
+        } else {
+          state = { key: k, dir: defaultDir[k] || 'asc' };
+        }
+        apply();
+      });
+    });
+
+    apply();
+  })();
+</script>
