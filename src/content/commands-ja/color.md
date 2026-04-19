@@ -1,6 +1,6 @@
 ---
 name: "/color"
-introducedIn: "2.1.70"
+introducedIn: "2.1.7"
 description: "`/color` コマンドでデフォルト色に戻す手段がなかった問題を修正 — `/color default`、`/color gray`、`/color reset`、`/color none` でデフォルトに復元できるように"
 category: slash
 ---

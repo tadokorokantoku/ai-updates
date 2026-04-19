@@ -1,6 +1,6 @@
 ---
 name: "/tag"
-introducedIn: "2.1.19"
+introducedIn: "2.0.65"
 description: "Fixed `/rename` and `/tag` not updating the correct session when resuming from a different directory (e.g., git worktrees)"
 category: slash
 ---

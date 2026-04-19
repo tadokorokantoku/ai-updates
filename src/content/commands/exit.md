@@ -1,6 +1,6 @@
 ---
 name: "/exit"
-introducedIn: "2.1.81"
+introducedIn: "0.2.25"
 description: "Fixed Remote Control `/exit` not reliably archiving the session"
 category: slash
 ---

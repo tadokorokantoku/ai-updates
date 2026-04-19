@@ -1,6 +1,6 @@
 ---
 name: "/config"
-introducedIn: "2.0.12"
+introducedIn: "0.2.9"
 description: "Changes to the \"verbose\" setting in `/config` now persist across sessions"
 category: slash
 ---

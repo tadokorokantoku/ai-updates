@@ -1,6 +1,6 @@
 ---
 name: "/todos"
-introducedIn: "2.1.14"
+introducedIn: "1.0.94"
 description: "`/config`、`/context`、`/model`、`/todos` のコマンドオーバーレイが予期せず閉じる問題を修正"
 category: slash
 ---

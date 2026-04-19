@@ -1,6 +1,6 @@
 ---
 name: "/btw"
-introducedIn: "2.1.79"
+introducedIn: "2.1.6"
 description: "ストリーミング中に `/btw` をトリガーすると、サイド質問に回答する代わりにメインエージェントの出力を返す問題を修正"
 category: slash
 ---

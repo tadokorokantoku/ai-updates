@@ -1,6 +1,6 @@
 ---
 name: "/extra-usage"
-introducedIn: "2.1.50"
+introducedIn: "2.0.36"
 description: "VSCode: VS Code セッションで `/extra-usage` コマンドをサポート"
 category: slash
 ---

@@ -1,6 +1,6 @@
 ---
 name: "/mcp"
-introducedIn: "2.1.70"
+introducedIn: "0.2.9"
 description: "[VSCode] Added native MCP server management dialog — use `/mcp` in the chat panel to enable/disable servers, reconnect, and manage OAuth authentication without switching to the terminal"
 category: slash
 ---

@@ -1,6 +1,6 @@
 ---
 name: "/reload-plugins"
-introducedIn: "2.1.69"
+introducedIn: "2.1.64"
 description: "再起動なしで保留中のプラグイン変更を有効化する `/reload-plugins` コマンドを追加"
 category: slash
 ---

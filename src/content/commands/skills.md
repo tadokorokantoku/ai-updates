@@ -1,6 +1,6 @@
 ---
 name: "/skills"
-introducedIn: "2.1.33"
+introducedIn: "2.0.73"
 description: "Added plugin name to skill descriptions and `/skills` menu for better discoverability"
 category: slash
 ---

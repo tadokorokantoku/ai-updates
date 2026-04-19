@@ -1,6 +1,6 @@
 ---
 name: "/rename"
-introducedIn: "2.0.64"
+introducedIn: "2.0.41"
 description: "Added named session support: use `/rename` to name sessions, `/resume <name>` in REPL or `claude --resume <name>` from the terminal to resume them"
 category: slash
 ---

@@ -1,6 +1,6 @@
 ---
 name: "/output-style"
-introducedIn: "2.0.30"
+introducedIn: "1.0.78"
 description: "output style を非推奨化。`/output-style` でオプションを確認し、代わりに --system-prompt-file、--system-prompt、--append-system-prompt、CLAUDE.md、plugin を使用"
 category: slash
 ---

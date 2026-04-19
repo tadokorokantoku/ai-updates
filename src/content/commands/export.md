@@ -1,6 +1,6 @@
 ---
 name: "/export"
-introducedIn: "2.1.76"
+introducedIn: "1.0.44"
 description: "Fixed `/export` showing only the filename instead of the full file path in the success message"
 category: slash
 ---

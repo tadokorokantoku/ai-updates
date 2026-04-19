@@ -1,6 +1,6 @@
 ---
 name: "/context"
-introducedIn: "2.0.30"
+introducedIn: "1.0.86"
 description: "Fixed a bug where `/context` would sometimes fail with \"max_tokens must be greater than thinking.budget_tokens\" error message"
 category: slash
 ---

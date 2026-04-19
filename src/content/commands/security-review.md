@@ -1,6 +1,6 @@
 ---
 name: "/security-review"
-introducedIn: "2.1.70"
+introducedIn: "1.0.69"
 description: "Fixed `/security-review` command failing with `unknown option merge-base` on older git versions"
 category: slash
 ---

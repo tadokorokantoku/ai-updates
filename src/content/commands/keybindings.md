@@ -1,6 +1,6 @@
 ---
 name: "/keybindings"
-introducedIn: "2.1.18"
+introducedIn: "2.1.6"
 description: "Added customizable keyboard shortcuts. Configure keybindings per context, create chord sequences, and personalize your workflow. Run `/keybindings` to get started. Learn more at https://code.claude..."
 category: slash
 ---

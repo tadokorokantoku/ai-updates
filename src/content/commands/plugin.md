@@ -1,6 +1,6 @@
 ---
 name: "/plugin"
-introducedIn: "2.0.13"
+introducedIn: "2.0.12"
 description: "Fixed `/plugin` not working on native build"
 category: slash
 ---

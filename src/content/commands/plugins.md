@@ -1,6 +1,6 @@
 ---
 name: "/plugins"
-introducedIn: "2.1.2"
+introducedIn: "2.0.12"
 description: "Changed `/plugins` installed tab to unify plugins and MCPs with scope-based grouping"
 category: slash
 ---

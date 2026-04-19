@@ -1,6 +1,6 @@
 ---
 name: "/review"
-introducedIn: "2.1.108"
+introducedIn: "0.2.9"
 description: "モデルが Skill ツール経由で `/init`、`/review`、`/security-review` などの組み込みスラッシュコマンドを発見・呼び出し可能に"
 category: slash
 ---

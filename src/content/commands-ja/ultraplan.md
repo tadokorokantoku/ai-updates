@@ -1,6 +1,6 @@
 ---
 name: "/ultraplan"
-introducedIn: "2.1.101"
+introducedIn: "2.1.83"
 description: "`/ultraplan` などのリモートセッション機能が、ウェブでのセットアップを要求せずにデフォルトのクラウド環境を自動作成するように"
 category: slash
 ---

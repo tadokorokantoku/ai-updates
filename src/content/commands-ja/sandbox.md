@@ -1,6 +1,6 @@
 ---
 name: "/sandbox"
-introducedIn: "2.1.20"
+introducedIn: "2.0.12"
 description: "`/sandbox` コマンドの UI を改善。依存関係が不足している場合にステータスとインストール手順を表示"
 category: slash
 ---

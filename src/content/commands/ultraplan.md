@@ -1,6 +1,6 @@
 ---
 name: "/ultraplan"
-introducedIn: "2.1.101"
+introducedIn: "2.1.83"
 description: "`/ultraplan` and other remote-session features now auto-create a default cloud environment instead of requiring web setup first"
 category: slash
 ---

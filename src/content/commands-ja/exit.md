@@ -1,6 +1,6 @@
 ---
 name: "/exit"
-introducedIn: "2.1.81"
+introducedIn: "0.2.25"
 description: "Remote Control `/exit` がセッションを確実にアーカイブできない問題を修正"
 category: slash
 ---

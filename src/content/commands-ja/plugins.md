@@ -1,6 +1,6 @@
 ---
 name: "/plugins"
-introducedIn: "2.1.2"
+introducedIn: "2.0.12"
 description: "`/plugins` の installed タブを変更。プラグインと MCP をスコープベースのグルーピングで統合"
 category: slash
 ---

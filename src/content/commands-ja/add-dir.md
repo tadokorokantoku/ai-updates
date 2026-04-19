@@ -1,6 +1,6 @@
 ---
 name: "/add-dir"
-introducedIn: "1.0.42"
+introducedIn: "1.0.23"
 description: "`/add-dir` コマンドにチルダ (`~`) 展開のサポートを追加"
 category: slash
 ---

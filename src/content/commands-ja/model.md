@@ -1,6 +1,6 @@
 ---
 name: "/model"
-introducedIn: "1.0.77"
+introducedIn: "1.0.0"
 description: "Opus Plan Mode: plan モードのみ Opus、それ以外は Sonnet を使う新しい設定を `/model` に追加"
 category: slash
 ---

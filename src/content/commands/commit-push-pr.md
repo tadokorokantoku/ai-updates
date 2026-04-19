@@ -1,6 +1,6 @@
 ---
 name: "/commit-push-pr"
-introducedIn: "2.1.20"
+introducedIn: "2.1.51"
 description: "Changed the `/commit-push-pr` skill to automatically post PR URLs to Slack channels when configured via MCP tools"
 category: slash
 ---

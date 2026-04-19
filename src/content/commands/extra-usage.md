@@ -1,6 +1,6 @@
 ---
 name: "/extra-usage"
-introducedIn: "2.1.50"
+introducedIn: "2.0.36"
 description: "VSCode: Added `/extra-usage` command support in VS Code sessions"
 category: slash
 ---

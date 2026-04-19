@@ -1,6 +1,6 @@
 ---
 name: "/terminal-setup"
-introducedIn: "2.0.28"
+introducedIn: "0.2.9"
 description: "`/terminal-setup` が VS Code の `Shift + Enter` にバックスラッシュを追加しないように修正"
 category: slash
 ---

@@ -1,6 +1,6 @@
 ---
 name: "/resume"
-introducedIn: "2.0.12"
+introducedIn: "1.0.26"
 description: "`/resume` のサマリーで hook について言及しないように"
 category: slash
 ---

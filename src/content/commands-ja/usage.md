@@ -1,6 +1,6 @@
 ---
 name: "/usage"
-introducedIn: "2.0.47"
+introducedIn: "2.0.0"
 description: "`/usage` のエラーハンドリングを改善"
 category: slash
 ---

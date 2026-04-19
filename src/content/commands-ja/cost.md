@@ -1,6 +1,6 @@
 ---
 name: "/cost"
-introducedIn: "2.1.69"
+introducedIn: "0.2.9"
 description: "Remote Control セッションでローカル slash コマンド（`/voice`、`/cost`）を実行すると Android アプリがクラッシュする問題を修正"
 category: slash
 ---

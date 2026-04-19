@@ -1,6 +1,6 @@
 ---
 name: "/terminal-setup"
-introducedIn: "2.0.28"
+introducedIn: "0.2.9"
 description: "Stop `/terminal-setup` from adding backslash to `Shift + Enter` in VS Code"
 category: slash
 ---

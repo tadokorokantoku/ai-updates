@@ -1,6 +1,6 @@
 ---
 name: "/todos"
-introducedIn: "2.1.14"
+introducedIn: "1.0.94"
 description: "Fixed an issue where `/config`, `/context`, `/model`, and `/todos` command overlays could close unexpectedly"
 category: slash
 ---

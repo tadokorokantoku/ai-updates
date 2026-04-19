@@ -1,6 +1,6 @@
 ---
 name: "/doctor"
-introducedIn: "2.0.12"
+introducedIn: "0.2.9"
 description: "Comprehensive error messages and diagnostics via `/doctor` command"
 category: slash
 ---

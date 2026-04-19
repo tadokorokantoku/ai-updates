@@ -1,6 +1,6 @@
 ---
 name: "/export"
-introducedIn: "2.1.76"
+introducedIn: "1.0.44"
 description: "`/export` が成功メッセージでフルパスではなくファイル名のみを表示する問題を修正"
 category: slash
 ---

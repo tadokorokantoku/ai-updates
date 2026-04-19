@@ -1,6 +1,6 @@
 ---
 name: "/vim"
-introducedIn: "2.1.92"
+introducedIn: "0.2.19"
 description: "`/vim` コマンドを削除 (vim モードは `/config` → Editor mode で切り替え)"
 category: slash
 ---

@@ -1,6 +1,6 @@
 ---
 name: "/compact"
-introducedIn: "2.0.31"
+introducedIn: "0.2.9"
 description: "Fixed issue causing `/compact` to fail with `prompt_too_long` by making it respect existing compact boundaries"
 category: slash
 ---

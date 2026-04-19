@@ -1,6 +1,6 @@
 ---
 name: "/remote-control"
-introducedIn: "2.1.69"
+introducedIn: "2.1.51"
 description: "Added optional name argument to `/remote-control` and `claude remote-control` (`/remote-control My Project` or `--name \"My Project\"`) to set a custom session title visible in claude.ai/code"
 category: slash
 ---

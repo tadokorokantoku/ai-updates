@@ -1,6 +1,6 @@
 ---
 name: "/ultrareview"
-introducedIn: "2.1.111"
+introducedIn: "2.1.83"
 description: "並列マルチエージェント解析と批評を使ってクラウドで包括的なコードレビューを実行する `/ultrareview` を追加 — 引数なしで現在のブランチをレビュー、または `/ultrareview <..."
 category: slash
 ---

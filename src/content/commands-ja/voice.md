@@ -1,6 +1,6 @@
 ---
 name: "/voice"
-introducedIn: "2.1.69"
+introducedIn: "2.1.59"
 description: "Remote Control セッションでローカルスラッシュコマンド (`/voice`、`/cost`) を実行した際の Android アプリクラッシュを修正"
 category: slash
 ---

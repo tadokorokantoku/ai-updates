@@ -1,6 +1,6 @@
 ---
 name: "/compact"
-introducedIn: "2.0.31"
+introducedIn: "0.2.9"
 description: "既存の compact 境界を尊重するようにし、`/compact` が `prompt_too_long` で失敗する問題を修正"
 category: slash
 ---

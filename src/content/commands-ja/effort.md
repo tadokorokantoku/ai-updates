@@ -1,6 +1,6 @@
 ---
 name: "/effort"
-introducedIn: "2.1.73"
+introducedIn: "2.1.76"
 description: "Claude が応答中でも動作するよう `/effort` を改善。`/model` の挙動に合わせた"
 category: slash
 ---

@@ -1,6 +1,6 @@
 ---
 name: "/plan"
-introducedIn: "2.1.0"
+introducedIn: "2.0.56"
 description: "プロンプトから直接プランモードを有効化する `/plan` コマンドショートカットを追加"
 category: slash
 ---

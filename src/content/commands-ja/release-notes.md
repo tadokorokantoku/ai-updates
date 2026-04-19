@@ -1,6 +1,6 @@
 ---
 name: "/release-notes"
-introducedIn: "2.1.92"
+introducedIn: "0.2.9"
 description: "`/release-notes` をインタラクティブなバージョンピッカーに変更"
 category: slash
 ---

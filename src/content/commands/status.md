@@ -1,6 +1,6 @@
 ---
 name: "/status"
-introducedIn: "2.1.75"
+introducedIn: "0.2.103"
 description: "Fixed Esc not closing the `/status` dialog after visiting the Config tab"
 category: slash
 ---

@@ -1,6 +1,6 @@
 ---
 name: "/pr-comments"
-introducedIn: "1.0.68"
+introducedIn: "0.2.9"
 description: "`/pr-comments` など特定のコマンドで誤ったモデル名が使われる問題を修正"
 category: slash
 ---

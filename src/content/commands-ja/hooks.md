@@ -1,6 +1,6 @@
 ---
 name: "/hooks"
-introducedIn: "2.0.35"
+introducedIn: "1.0.38"
 description: "空文字列や他の falsy 値を持つアイテム（`/hooks` メニューなど）でメニューナビゲーションがスタックする問題を修正"
 category: slash
 ---

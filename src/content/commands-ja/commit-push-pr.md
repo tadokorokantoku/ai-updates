@@ -1,6 +1,6 @@
 ---
 name: "/commit-push-pr"
-introducedIn: "2.1.20"
+introducedIn: "2.1.51"
 description: "`/commit-push-pr` skill を変更し、MCP ツール経由で設定されている場合は PR URL を Slack チャンネルに自動投稿"
 category: slash
 ---

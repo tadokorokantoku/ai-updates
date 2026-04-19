@@ -1,6 +1,6 @@
 ---
 name: "/insights"
-introducedIn: "2.1.101"
+introducedIn: "2.1.30"
 description: "Fixed `/insights` sometimes omitting the report file link from its response"
 category: slash
 ---

@@ -1,6 +1,6 @@
 ---
 name: "/agents"
-introducedIn: "2.1.97"
+introducedIn: "1.0.60"
 description: "Added `● N running` indicator in `/agents` next to agent types with live subagent instances"
 category: slash
 ---

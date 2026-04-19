@@ -1,6 +1,6 @@
 ---
 name: "/tasks"
-introducedIn: "2.1.2"
+introducedIn: "0.2.117"
 description: "`/tasks` コマンド使用時にリモートセッション URL と teleport が壊れる問題を修正"
 category: slash
 ---

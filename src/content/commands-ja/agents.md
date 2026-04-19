@@ -1,6 +1,6 @@
 ---
 name: "/agents"
-introducedIn: "2.1.97"
+introducedIn: "1.0.60"
 description: "`/agents` でライブの subagent インスタンスを持つエージェントタイプの横に `● N running` インジケーターを追加"
 category: slash
 ---

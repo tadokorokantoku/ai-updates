@@ -1,6 +1,6 @@
 ---
 name: "/effort"
-introducedIn: "2.1.73"
+introducedIn: "2.1.76"
 description: "Improved `/effort` to work while Claude is responding, matching `/model` behavior"
 category: slash
 ---

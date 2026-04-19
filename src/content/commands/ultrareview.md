@@ -1,6 +1,6 @@
 ---
 name: "/ultrareview"
-introducedIn: "2.1.111"
+introducedIn: "2.1.83"
 description: "Added `/ultrareview` for running comprehensive code review in the cloud using parallel multi-agent analysis and critique — invoke with no arguments to review your current branch, or `/ultrareview <..."
 category: slash
 ---

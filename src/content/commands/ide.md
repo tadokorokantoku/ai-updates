@@ -1,6 +1,6 @@
 ---
 name: "/ide"
-introducedIn: "2.1.73"
+introducedIn: "0.2.104"
 description: "Fixed `/ide` crashing with `onInstall is not defined` when auto-installing the extension"
 category: slash
 ---

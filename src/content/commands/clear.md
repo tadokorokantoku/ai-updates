@@ -1,6 +1,6 @@
 ---
 name: "/clear"
-introducedIn: "2.1.3"
+introducedIn: "0.2.9"
 description: "Fixed plan files persisting across `/clear` commands, now ensuring a fresh plan file is used after clearing a conversation"
 category: slash
 ---

@@ -1,6 +1,6 @@
 ---
 name: "/mcp"
-introducedIn: "2.1.70"
+introducedIn: "0.2.9"
 description: "[VSCode] ネイティブの MCP サーバー管理ダイアログを追加 — チャットパネルで `/mcp` を使うと、ターミナルに切り替えずにサーバーの有効化/無効化、再接続、OAuth 認証管理が可能"
 category: slash
 ---

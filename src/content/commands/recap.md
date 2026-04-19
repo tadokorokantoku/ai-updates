@@ -1,6 +1,6 @@
 ---
 name: "/recap"
-introducedIn: "2.1.108"
+introducedIn: "2.1.105"
 description: "Added recap feature to provide context when returning to a session, configurable in `/config` and manually invocable with `/recap`; force with `CLAUDE_CODE_ENABLE_AWAY_SUMMARY` if telemetry disabled."
 category: slash
 ---

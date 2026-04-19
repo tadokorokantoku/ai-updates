@@ -1,6 +1,6 @@
 ---
 name: "/review"
-introducedIn: "2.1.108"
+introducedIn: "0.2.9"
 description: "The model can now discover and invoke built-in slash commands like `/init`, `/review`, and `/security-review` via the Skill tool"
 category: slash
 ---

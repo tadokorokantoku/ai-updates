@@ -1,6 +1,6 @@
 ---
 name: "/clear"
-introducedIn: "2.1.3"
+introducedIn: "0.2.9"
 description: "`/clear` コマンドをまたいで plan ファイルが残り続ける問題を修正。会話クリア後は新しい plan ファイルが使われるように"
 category: slash
 ---

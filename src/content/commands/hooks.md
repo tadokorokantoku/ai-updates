@@ -1,6 +1,6 @@
 ---
 name: "/hooks"
-introducedIn: "2.0.35"
+introducedIn: "1.0.38"
 description: "Fixed menu navigation getting stuck on items with empty string or other falsy values (e.g., in the `/hooks` menu)"
 category: slash
 ---

@@ -1,6 +1,6 @@
 ---
 name: "/stats"
-introducedIn: "2.1.0"
+introducedIn: "2.0.63"
 description: "Improved `/stats` output"
 category: slash
 ---

@@ -1,6 +1,6 @@
 ---
 name: "/vim"
-introducedIn: "2.1.92"
+introducedIn: "0.2.19"
 description: "Removed `/vim` command (toggle vim mode via `/config` → Editor mode)"
 category: slash
 ---

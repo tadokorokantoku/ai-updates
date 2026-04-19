@@ -1,6 +1,6 @@
 ---
 name: "/status"
-introducedIn: "2.1.75"
+introducedIn: "0.2.103"
 description: "Config タブを訪問後に Esc で `/status` ダイアログが閉じない問題を修正"
 category: slash
 ---

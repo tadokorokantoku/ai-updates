@@ -1,6 +1,6 @@
 ---
 name: "/keybindings"
-introducedIn: "2.1.18"
+introducedIn: "2.1.6"
 description: "カスタマイズ可能なキーボードショートカットを追加。コンテキストごとに keybinding を設定、chord シーケンスを作成、ワークフローをパーソナライズ可能。`/keybindings` を実行して開始。詳細は https://code.claude..."
 category: slash
 ---

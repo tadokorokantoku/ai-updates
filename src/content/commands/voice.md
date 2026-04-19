@@ -1,6 +1,6 @@
 ---
 name: "/voice"
-introducedIn: "2.1.69"
+introducedIn: "2.1.59"
 description: "Fixed Android app crash when running local slash commands (`/voice`, `/cost`) in Remote Control sessions"
 category: slash
 ---

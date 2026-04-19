@@ -1,6 +1,6 @@
 ---
 name: "/permissions"
-introducedIn: "2.0.67"
+introducedIn: "1.0.7"
 description: "`/permissions` コマンドに検索機能を追加。`/` キーボードショートカットでツール名によるルールのフィルタリングが可能に"
 category: slash
 ---

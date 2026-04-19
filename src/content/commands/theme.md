@@ -1,6 +1,6 @@
 ---
 name: "/theme"
-introducedIn: "2.0.73"
+introducedIn: "0.2.38"
 description: "Improved `/theme` command to open theme picker directly"
 category: slash
 ---

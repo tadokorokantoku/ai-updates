@@ -1,6 +1,6 @@
 ---
 name: "/remote-env"
-introducedIn: "2.1.0"
+introducedIn: "2.0.47"
 description: "claude.ai サブスクライバー向けに `/teleport` と `/remote-env` スラッシュコマンドを追加。リモートセッションの再開と設定が可能に"
 category: slash
 ---

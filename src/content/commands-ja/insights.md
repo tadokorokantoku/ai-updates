@@ -1,6 +1,6 @@
 ---
 name: "/insights"
-introducedIn: "2.1.101"
+introducedIn: "2.1.30"
 description: "`/insights` が応答からレポートファイルリンクを省略することがある問題を修正"
 category: slash
 ---

@@ -1,6 +1,6 @@
 ---
 name: "/plugin"
-introducedIn: "2.0.13"
+introducedIn: "2.0.12"
 description: "`/plugin` がネイティブビルドで動作しない問題を修正"
 category: slash
 ---

@@ -1,6 +1,6 @@
 ---
 name: "/login"
-introducedIn: "2.1.30"
+introducedIn: "0.2.9"
 description: "Fixed 400 errors that could occur after running `/login` when the conversation contained thinking blocks"
 category: slash
 ---

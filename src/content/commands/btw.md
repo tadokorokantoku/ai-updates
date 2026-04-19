@@ -1,6 +1,6 @@
 ---
 name: "/btw"
-introducedIn: "2.1.79"
+introducedIn: "2.1.6"
 description: "Fixed `/btw` returning the main agent's output instead of answering the side question when triggered during streaming"
 category: slash
 ---

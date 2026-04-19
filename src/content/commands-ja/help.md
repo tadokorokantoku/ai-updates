@@ -1,6 +1,6 @@
 ---
 name: "/help"
-introducedIn: "2.0.12"
+introducedIn: "0.2.9"
 description: "`/help` の改善"
 category: slash
 ---

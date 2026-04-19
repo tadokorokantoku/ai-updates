@@ -1,6 +1,6 @@
 ---
 name: "/chrome"
-introducedIn: "2.1.84"
+introducedIn: "2.0.71"
 description: "Slash commands unavailable for the current auth setup (`/voice`, `/mobile`, `/chrome`, `/upgrade`, etc.) are now hidden instead of shown"
 category: slash
 ---

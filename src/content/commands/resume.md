@@ -1,6 +1,6 @@
 ---
 name: "/resume"
-introducedIn: "2.0.12"
+introducedIn: "1.0.26"
 description: "Avoid mentioning hooks in `/resume` summaries"
 category: slash
 ---

@@ -1,6 +1,6 @@
 ---
 name: "/feedback"
-introducedIn: "2.1.14"
+introducedIn: "1.0.102"
 description: "説明文が非常に長い場合に `/feedback` コマンドが無効な GitHub issue URL を生成する問題を修正"
 category: slash
 ---

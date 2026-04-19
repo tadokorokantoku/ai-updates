@@ -1,6 +1,6 @@
 ---
 name: "/rewind"
-introducedIn: "2.1.83"
+introducedIn: "1.0.128"
 description: "[VSCode] Added Esc-twice (or `/rewind`) to open a keyboard-navigable rewind picker"
 category: slash
 ---

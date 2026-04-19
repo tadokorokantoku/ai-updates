@@ -1,6 +1,6 @@
 ---
 name: "/fork"
-introducedIn: "2.1.47"
+introducedIn: "2.1.8"
 description: "Web search を使用したセッションで `/fork` を使うとクラッシュする問題を修正 — トランスクリプトのデシリアライズによる検索結果の null エントリを適切に処理するように (anthropics/claude-code#25811)"
 category: slash
 ---

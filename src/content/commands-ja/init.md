@@ -1,6 +1,6 @@
 ---
 name: "/init"
-introducedIn: "2.1.108"
+introducedIn: "0.2.9"
 description: "モデルが Skill tool 経由で `/init`、`/review`、`/security-review` などの組み込み slash コマンドを発見・呼び出しできるように"
 category: slash
 ---

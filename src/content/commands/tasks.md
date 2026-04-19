@@ -1,6 +1,6 @@
 ---
 name: "/tasks"
-introducedIn: "2.1.2"
+introducedIn: "0.2.117"
 description: "Fixed remote session URL and teleport being broken when using `/tasks` command"
 category: slash
 ---

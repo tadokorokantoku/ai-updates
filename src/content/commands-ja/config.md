@@ -1,6 +1,6 @@
 ---
 name: "/config"
-introducedIn: "2.0.12"
+introducedIn: "0.2.9"
 description: "`/config` の \"verbose\" 設定変更がセッションをまたいで永続化されるように"
 category: slash
 ---

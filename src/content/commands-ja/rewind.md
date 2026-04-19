@@ -1,6 +1,6 @@
 ---
 name: "/rewind"
-introducedIn: "2.1.83"
+introducedIn: "1.0.128"
 description: "[VSCode] Esc 2回押し (または `/rewind`) でキーボード操作可能な rewind ピッカーを開くように"
 category: slash
 ---

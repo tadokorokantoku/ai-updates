@@ -1,6 +1,6 @@
 ---
 name: "/plan"
-introducedIn: "2.1.0"
+introducedIn: "2.0.56"
 description: "Added `/plan` command shortcut to enable plan mode directly from the prompt"
 category: slash
 ---

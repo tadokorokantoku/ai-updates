@@ -1,6 +1,6 @@
 ---
 name: "/team-onboarding"
-introducedIn: "2.1.101"
+introducedIn: "2.1.94"
 description: "Added `/team-onboarding` command to generate a teammate ramp-up guide from your local Claude Code usage"
 category: slash
 ---

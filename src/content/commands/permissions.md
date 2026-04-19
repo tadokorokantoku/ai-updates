@@ -1,6 +1,6 @@
 ---
 name: "/permissions"
-introducedIn: "2.0.67"
+introducedIn: "1.0.7"
 description: "Added search functionality to `/permissions` command with `/` keyboard shortcut for filtering rules by tool name"
 category: slash
 ---

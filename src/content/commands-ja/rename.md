@@ -1,6 +1,6 @@
 ---
 name: "/rename"
-introducedIn: "2.0.64"
+introducedIn: "2.0.41"
 description: "名前付きセッションサポートを追加: `/rename` でセッションに名前を付け、REPL から `/resume <name>` またはターミナルから `claude --resume <name>` で再開"
 category: slash
 ---

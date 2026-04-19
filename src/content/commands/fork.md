@@ -1,6 +1,6 @@
 ---
 name: "/fork"
-introducedIn: "2.1.47"
+introducedIn: "2.1.8"
 description: "Fixed crash when using `/fork` on sessions that used web search — null entries in search results from transcript deserialization are now handled gracefully (anthropics/claude-code#25811)"
 category: slash
 ---

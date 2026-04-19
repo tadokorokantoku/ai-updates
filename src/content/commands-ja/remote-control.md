@@ -1,6 +1,6 @@
 ---
 name: "/remote-control"
-introducedIn: "2.1.69"
+introducedIn: "2.1.51"
 description: "`/remote-control` と `claude remote-control` にオプションの名前引数を追加 (`/remote-control My Project` または `--name \"My Project\"`)。claude.ai/code に表示されるカスタムセッションタイトルを設定可能"
 category: slash
 ---

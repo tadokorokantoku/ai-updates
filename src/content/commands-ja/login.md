@@ -1,6 +1,6 @@
 ---
 name: "/login"
-introducedIn: "2.1.30"
+introducedIn: "0.2.9"
 description: "会話に thinking ブロックが含まれる場合に `/login` 実行後に発生する可能性のある 400 エラーを修正"
 category: slash
 ---

@@ -1,6 +1,6 @@
 ---
 name: "/sandbox"
-introducedIn: "2.1.20"
+introducedIn: "2.0.12"
 description: "Improved `/sandbox` command UI to show dependency status with installation instructions when dependencies are missing"
 category: slash
 ---

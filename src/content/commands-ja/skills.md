@@ -1,6 +1,6 @@
 ---
 name: "/skills"
-introducedIn: "2.1.33"
+introducedIn: "2.0.73"
 description: "スキル説明と `/skills` メニューにプラグイン名を追加し、発見性を向上"
 category: slash
 ---

@@ -1,6 +1,6 @@
 ---
 name: "/commit"
-introducedIn: "2.1.111"
+introducedIn: "2.1.51"
 description: "Fixed Claude calling a non-existent `commit` skill and showing \"Unknown skill: commit\" for users without a custom `/commit` command"
 category: slash
 ---

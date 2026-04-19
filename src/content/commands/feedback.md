@@ -1,6 +1,6 @@
 ---
 name: "/feedback"
-introducedIn: "2.1.14"
+introducedIn: "1.0.102"
 description: "Fixed `/feedback` command generating invalid GitHub issue URLs when description is very long"
 category: slash
 ---

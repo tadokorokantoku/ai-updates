@@ -1,6 +1,6 @@
 ---
 name: "/add-dir"
-introducedIn: "1.0.42"
+introducedIn: "1.0.23"
 description: "Added tilde (`~`) expansion support to `/add-dir` command"
 category: slash
 ---
