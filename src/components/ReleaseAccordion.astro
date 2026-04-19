@@ -1,0 +1,163 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import HighlightPills from './HighlightPills.astro';
+import Chevron from './Chevron.astro';
+import { renderInlineCode } from '../utils/inlineCode';
+
+type Release = CollectionEntry<'releases'> | CollectionEntry<'releases-ja'>;
+type RenderedRelease = { release: Release; Content: any };
+
+interface Props {
+  items: RenderedRelease[];
+  basePath: string;
+  autoOpenLatest?: boolean;
+}
+const { items, basePath, autoOpenLatest = false } = Astro.props;
+const dateFmt = new Intl.DateTimeFormat('ja-JP', { dateStyle: 'long' });
+---
+
+<ol
+  class="mt-8 space-y-3"
+  id="release-list"
+  data-base-path={basePath}
+  data-auto-open-latest={autoOpenLatest ? 'true' : 'false'}
+>
+  {items.map(({ release: r, Content }) => (
+    <li id={`release-${r.data.version}`} class="scroll-mt-32">
+      <div
+        class="release-card group rounded-lg border border-slate-200 bg-white transition-colors hover:border-accent-400 [&.open]:border-accent-400 [&.open]:shadow-md"
+        data-version={r.data.version}
+      >
+        <button
+          type="button"
+          class="release-toggle flex w-full cursor-pointer items-baseline justify-between gap-4 px-5 py-4 text-left"
+          aria-expanded="false"
+        >
+          <div class="flex shrink-0 items-baseline gap-4">
+            <Chevron class="self-center text-slate-400 transition-transform group-[.open]:rotate-90" />
+            <span class="text-xl font-semibold">v{r.data.version}</span>
+            <span class="whitespace-nowrap text-xs text-slate-500">{dateFmt.format(r.data.date)}</span>
+          </div>
+          {r.data.highlights && r.data.highlights.length > 0 && (
+            <span
+              class="hidden min-w-0 flex-1 truncate text-right text-xs text-slate-600 sm:inline"
+              set:html={renderInlineCode(r.data.highlights[0])}
+            />
+          )}
+        </button>
+        <div class="release-body">
+          <div class="release-body-inner">
+            <div class="border-t border-slate-200 px-6 py-5">
+              <div class="mb-4 flex items-start justify-between gap-4">
+                {r.data.highlights && r.data.highlights.length > 0 ? (
+                  <HighlightPills highlights={r.data.highlights} />
+                ) : (
+                  <span />
+                )}
+                <a
+                  href={`${basePath}/${r.data.version}/detail`}
+                  class="shrink-0 whitespace-nowrap text-xs text-slate-500 hover:text-accent-600"
+                >
+                  単独ページで開く →
+                </a>
+              </div>
+              <article class="prose prose-slate prose-sm max-w-none">
+                <Content />
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+  ))}
+</ol>
+
+<script is:inline>
+  (() => {
+    const list = document.getElementById('release-list');
+    if (!list) return;
+    const basePath = list.dataset.basePath || '';
+    const autoOpenLatest = list.dataset.autoOpenLatest === 'true';
+    const cards = list.querySelectorAll('.release-card');
+    const byVersion = new Map();
+    cards.forEach((d) => byVersion.set(d.dataset.version, d));
+
+    const matchPath = () => {
+      if (!location.pathname.startsWith(basePath + '/')) return null;
+      const rest = location.pathname.slice(basePath.length + 1).replace(/\/$/, '');
+      return rest ? decodeURIComponent(rest) : null;
+    };
+    const matchHash = () => {
+      const m = location.hash.match(/^#release-(.+)$/);
+      return m ? decodeURIComponent(m[1]) : null;
+    };
+
+    const findOpen = () => [...cards].find((d) => d.classList.contains('open')) || null;
+
+    const setOpen = (card, open) => {
+      card.classList.toggle('open', open);
+      const btn = card.querySelector('.release-toggle');
+      btn?.setAttribute('aria-expanded', String(open));
+    };
+
+    const openVersion = (version, { scroll = true, push = false } = {}) => {
+      const card = byVersion.get(version);
+      if (!card) return;
+      const opened = findOpen();
+      if (opened === card) return;
+      if (opened) setOpen(opened, false);
+      setOpen(card, true);
+      if (push) history.pushState({ version }, '', `${basePath}/${version}`);
+      if (scroll) {
+        requestAnimationFrame(() => {
+          const li = card.closest('li');
+          li?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      }
+    };
+
+    const closeVersion = (card, { push = true } = {}) => {
+      if (!card.classList.contains('open')) return;
+      setOpen(card, false);
+      if (push) history.pushState({}, '', basePath);
+    };
+
+    const closeAll = () => {
+      const open = findOpen();
+      if (open) closeVersion(open, { push: false });
+    };
+
+    window.openRelease = openVersion;
+
+    cards.forEach((card) => {
+      const button = card.querySelector('.release-toggle');
+      if (!button) return;
+      button.addEventListener('click', () => {
+        const version = card.dataset.version;
+        if (!version) return;
+        if (card.classList.contains('open')) {
+          closeVersion(card);
+        } else {
+          openVersion(version, { scroll: false, push: true });
+        }
+      });
+    });
+
+    window.addEventListener('popstate', () => {
+      const version = matchPath();
+      if (version) {
+        openVersion(version, { scroll: true });
+      } else {
+        closeAll();
+      }
+    });
+
+    const initial = matchPath() || matchHash();
+    if (initial) {
+      requestAnimationFrame(() => openVersion(initial, { scroll: true }));
+    } else if (autoOpenLatest) {
+      const latest = cards[0]?.dataset.version;
+      if (latest) requestAnimationFrame(() => openVersion(latest, { scroll: false }));
+    }
+  })();
+</script>

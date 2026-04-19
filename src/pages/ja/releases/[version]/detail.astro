@@ -1,8 +1,8 @@
 ---
-// Standalone single-version page. URL: /ja/releases/{version}/detail
 import Layout from '../../../../layouts/Layout.astro';
 import { getCollection, render } from 'astro:content';
-import { renderInlineCode } from '../../../../utils/inlineCode';
+import HighlightPills from '../../../../components/HighlightPills.astro';
+import IntroducedCommands from '../../../../components/IntroducedCommands.astro';
 
 export async function getStaticPaths() {
   const releases = await getCollection('releases-ja');
@@ -28,35 +28,12 @@ const dateFmt = new Intl.DateTimeFormat('ja-JP', { dateStyle: 'long' });
       <h1 class="text-4xl font-bold tracking-tight">v{release.data.version}</h1>
       <time class="text-sm text-slate-500">{dateFmt.format(release.data.date)}</time>
     </div>
-    {release.data.highlights && (
-      <ul class="mt-4 flex flex-wrap gap-2">
-        {release.data.highlights.map((h) => (
-          <li class="rounded-full bg-accent-100 px-3 py-1 text-xs text-accent-800" set:html={renderInlineCode(h)}></li>
-        ))}
-      </ul>
-    )}
+    {release.data.highlights && <HighlightPills highlights={release.data.highlights} class="mt-4 flex flex-wrap gap-2" />}
   </header>
 
   <article class="prose prose-slate max-w-none rounded-lg border border-slate-200 bg-white p-8">
     <Content />
   </article>
 
-  {commands.length > 0 && (
-    <section class="mt-10">
-      <h2 class="text-xl font-semibold">このバージョンで導入されたコマンド</h2>
-      <ul class="mt-4 space-y-2">
-        {commands.map((c) => (
-          <li>
-            <a
-              href={`/ja/commands/${c.id}`}
-              class="block rounded-lg border border-slate-200 bg-white px-4 py-3 hover:border-accent-400"
-            >
-              <code class="font-mono text-sm font-semibold text-accent-700">{c.data.name}</code>
-              <span class="ml-3 text-sm text-slate-600" set:html={renderInlineCode(c.data.description)}></span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </section>
-  )}
+  <IntroducedCommands commands={commands} basePath="/ja/commands" />
 </Layout>

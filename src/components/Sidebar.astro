@@ -1,0 +1,159 @@
+---
+import { getCollection } from 'astro:content';
+import Chevron from './Chevron.astro';
+
+interface Props {
+  locale: 'en' | 'ja';
+}
+const { locale } = Astro.props;
+
+const prefix = locale === 'ja' ? '/ja' : '';
+const releases = (await getCollection(locale === 'ja' ? 'releases-ja' : 'releases')).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+const commands = (await getCollection(locale === 'ja' ? 'commands-ja' : 'commands')).sort((a, b) =>
+  a.data.name.localeCompare(b.data.name)
+);
+
+type Release = (typeof releases)[number];
+type Command = (typeof commands)[number];
+
+const releasesByMajor = releases.reduce<Record<string, Release[]>>((acc, r) => {
+  const major = r.data.version.split('.')[0];
+  (acc[`v${major}.x`] ??= []).push(r);
+  return acc;
+}, {});
+const releaseGroups = Object.entries(releasesByMajor).sort(([a], [b]) =>
+  b.localeCompare(a, undefined, { numeric: true })
+);
+
+const categoryLabels: Record<Command['data']['category'], string> = {
+  slash: 'スラッシュコマンド',
+  cli: 'CLIコマンド',
+  flag: 'フラグ',
+};
+const commandsByCategory = commands.reduce<Record<string, Command[]>>((acc, c) => {
+  (acc[c.data.category] ??= []).push(c);
+  return acc;
+}, {});
+const commandGroups = Object.entries(commandsByCategory).sort(([a], [b]) => a.localeCompare(b));
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => path === href.replace(/\/$/, '');
+
+const releasesRoot = `${prefix}/releases`;
+const commandsRoot = `${prefix}/commands`;
+const releasesSectionOpen =
+  isActive(releasesRoot) || releases.some((r) => isActive(`${releasesRoot}/${r.data.version}`));
+const commandsSectionOpen =
+  isActive(commandsRoot) || commands.some((c) => isActive(`${commandsRoot}/${c.id}`));
+
+const sectionSummaryClass =
+  'flex cursor-pointer items-center gap-1 rounded px-2 py-1.5 text-xs font-bold uppercase tracking-wider text-slate-600 hover:bg-slate-100';
+const groupSummaryClass =
+  'flex cursor-pointer items-center gap-1 rounded px-2 py-1 text-xs font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-700';
+const linkActiveClass = 'bg-accent-50 font-semibold text-accent-700';
+const linkInactiveClass = 'text-slate-600 hover:bg-slate-100';
+---
+
+<aside class="hidden w-64 shrink-0 md:block">
+  <nav class="sticky top-20 max-h-[calc(100vh-6rem)] space-y-2 overflow-y-auto pr-2 text-sm">
+    <details open={releasesSectionOpen} class="group/section">
+      <summary class={sectionSummaryClass}>
+        <Chevron class="transition-transform group-open/section:rotate-90" />
+        リリース
+      </summary>
+      <div class="mt-1 ml-4 border-l border-slate-200 pl-2">
+        <a
+          href={releasesRoot}
+          class:list={[
+            'block rounded px-2 py-1 transition-colors',
+            isActive(releasesRoot) ? linkActiveClass : linkInactiveClass,
+          ]}
+        >
+          すべてのリリース
+        </a>
+        <div class="mt-1 space-y-1">
+          {releaseGroups.map(([groupName, items]) => {
+            const groupOpen = items.some((r) => isActive(`${releasesRoot}/${r.data.version}`));
+            return (
+              <details open={groupOpen} class="group/grp">
+                <summary class={groupSummaryClass}>
+                  <Chevron class="transition-transform group-open/grp:rotate-90" />
+                  {groupName}
+                </summary>
+                <ul class="mt-0.5 ml-4 space-y-0.5 border-l border-slate-200 pl-2">
+                  {items.map((r) => {
+                    const href = `${releasesRoot}/${r.data.version}`;
+                    return (
+                      <li>
+                        <a
+                          href={href}
+                          class:list={[
+                            'block rounded px-2 py-1 transition-colors',
+                            isActive(href) ? linkActiveClass : 'text-slate-700 hover:bg-slate-100',
+                          ]}
+                        >
+                          v{r.data.version}
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </details>
+            );
+          })}
+        </div>
+      </div>
+    </details>
+
+    <details open={commandsSectionOpen} class="group/section">
+      <summary class={sectionSummaryClass}>
+        <Chevron class="transition-transform group-open/section:rotate-90" />
+        コマンド
+      </summary>
+      <div class="mt-1 ml-4 border-l border-slate-200 pl-2">
+        <a
+          href={commandsRoot}
+          class:list={[
+            'block rounded px-2 py-1 transition-colors',
+            isActive(commandsRoot) ? linkActiveClass : linkInactiveClass,
+          ]}
+        >
+          すべてのコマンド
+        </a>
+        <div class="mt-1 space-y-1">
+          {commandGroups.map(([cat, items]) => {
+            const groupOpen = items.some((c) => isActive(`${commandsRoot}/${c.id}`));
+            return (
+              <details open={groupOpen} class="group/grp">
+                <summary class={groupSummaryClass}>
+                  <Chevron class="transition-transform group-open/grp:rotate-90" />
+                  {categoryLabels[cat as Command['data']['category']] ?? cat}
+                </summary>
+                <ul class="mt-0.5 ml-4 space-y-0.5 border-l border-slate-200 pl-2">
+                  {items.map((c) => {
+                    const href = `${commandsRoot}/${c.id}`;
+                    return (
+                      <li>
+                        <a
+                          href={href}
+                          class:list={[
+                            'block rounded px-2 py-1 font-mono text-xs transition-colors',
+                            isActive(href) ? linkActiveClass : 'text-slate-700 hover:bg-slate-100',
+                          ]}
+                        >
+                          {c.data.name}
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </details>
+            );
+          })}
+        </div>
+      </div>
+    </details>
+  </nav>
+</aside>

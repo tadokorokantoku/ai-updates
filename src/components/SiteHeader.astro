@@ -1,0 +1,26 @@
+---
+interface Props {
+  prefix: string;
+  langSwitchHref: string;
+  langSwitchLabel: string;
+}
+const { prefix, langSwitchHref, langSwitchLabel } = Astro.props;
+---
+<header class="sticky top-0 z-10 border-b border-slate-200 bg-white/90 backdrop-blur">
+  <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
+    <a href={prefix || '/'} class="text-base font-bold tracking-tight">Claude Code Updates</a>
+    <div class="flex items-center gap-4">
+      <a href={langSwitchHref} class="text-xs text-slate-500 hover:text-accent-600">
+        {langSwitchLabel}
+      </a>
+      <a
+        href="https://github.com/anthropics/claude-code"
+        class="text-xs text-slate-500 hover:text-accent-600"
+        target="_blank"
+        rel="noopener"
+      >
+        GitHub →
+      </a>
+    </div>
+  </div>
+</header>

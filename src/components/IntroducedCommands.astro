@@ -1,0 +1,31 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { renderInlineCode } from '../utils/inlineCode';
+
+type Command = CollectionEntry<'commands'> | CollectionEntry<'commands-ja'>;
+
+interface Props {
+  commands: Command[];
+  basePath: string;
+}
+const { commands, basePath } = Astro.props;
+---
+
+{commands.length > 0 && (
+  <section class="mt-10">
+    <h2 class="text-xl font-semibold">このバージョンで導入されたコマンド</h2>
+    <ul class="mt-4 space-y-2">
+      {commands.map((c) => (
+        <li>
+          <a
+            href={`${basePath}/${c.id}`}
+            class="block rounded-lg border border-slate-200 bg-white px-4 py-3 hover:border-accent-400"
+          >
+            <code class="font-mono text-sm font-semibold text-accent-700">{c.data.name}</code>
+            <span class="ml-3 text-sm text-slate-600" set:html={renderInlineCode(c.data.description)} />
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}
