@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
 import { DEFAULT_THEME, themeStyle, type ThemeKey } from '../themes';
 import SiteHeader from '../components/SiteHeader.astro';
 import Sidebar from '../components/Sidebar.astro';
@@ -7,14 +8,10 @@ import Sidebar from '../components/Sidebar.astro';
 interface Props {
   title?: string;
   theme?: ThemeKey;
-  locale?: 'en' | 'ja';
+  locale?: 'ja';
 }
 
-const { title = 'Claude Code Updates', theme = DEFAULT_THEME, locale = 'en' } = Astro.props;
-
-const prefix = locale === 'ja' ? '/ja' : '';
-const langSwitchHref = locale === 'ja' ? '/' : '/ja/';
-const langSwitchLabel = locale === 'ja' ? 'EN' : '日本語';
+const { title = 'Claude Code Updates', theme = DEFAULT_THEME } = Astro.props;
 ---
 
 <html lang="ja">
@@ -24,12 +21,13 @@ const langSwitchLabel = locale === 'ja' ? 'EN' : '日本語';
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <ClientRouter />
   </head>
   <body class="min-h-screen bg-base-200 text-base-content antialiased" style={themeStyle(theme)}>
-    <SiteHeader prefix={prefix} langSwitchHref={langSwitchHref} langSwitchLabel={langSwitchLabel} />
+    <SiteHeader />
 
     <div class="mx-auto flex max-w-7xl gap-10 px-6 py-8">
-      <Sidebar locale={locale} />
+      <Sidebar />
       <main class="min-w-0 flex-1">
         <slot />
       </main>

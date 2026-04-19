@@ -2,16 +2,11 @@
 import { getCollection } from 'astro:content';
 import Chevron from './Chevron.astro';
 
-interface Props {
-  locale: 'en' | 'ja';
-}
-const { locale } = Astro.props;
-
-const prefix = locale === 'ja' ? '/ja' : '';
-const releases = (await getCollection(locale === 'ja' ? 'releases-ja' : 'releases')).sort(
+const prefix = '/ja';
+const releases = (await getCollection('releases-ja')).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime()
 );
-const commands = (await getCollection(locale === 'ja' ? 'commands-ja' : 'commands')).sort((a, b) =>
+const commands = (await getCollection('commands-ja')).sort((a, b) =>
   a.data.name.localeCompare(b.data.name)
 );
 

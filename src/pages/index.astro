@@ -1,34 +1,19 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { getCollection, render } from 'astro:content';
-import HighlightPills from '../components/HighlightPills.astro';
-
-const releases = (await getCollection('releases')).sort(
-  (a, b) => b.data.date.getTime() - a.data.date.getTime()
-);
-const latest = releases[0];
-const { Content } = await render(latest);
-const dateFmt = new Intl.DateTimeFormat('ja-JP', { dateStyle: 'long' });
+const target = '/ja/releases';
 ---
-
-<Layout title="Claude Code Updates - 最新リリース">
-  <section class="mb-10">
-    <p class="text-sm text-base-content/60">最新リリース</p>
-    <div class="mt-2 flex items-baseline gap-4">
-      <h1 class="text-4xl font-bold tracking-tight">v{latest.data.version}</h1>
-      <time class="text-sm text-base-content/60">{dateFmt.format(latest.data.date)}</time>
-    </div>
-    {latest.data.highlights && <HighlightPills highlights={latest.data.highlights} class="mt-4 flex flex-wrap gap-2" />}
-  </section>
-
-  <div class="card card-border bg-base-100">
-    <article class="card-body prose prose-slate max-w-none">
-      <Content />
-    </article>
-  </div>
-
-  <div class="mt-6 flex justify-between text-sm">
-    <a href={`/releases/${latest.data.version}`} class="link link-primary link-hover">このリリースの詳細 →</a>
-    <a href="/releases" class="link link-primary link-hover">過去のリリース一覧 →</a>
-  </div>
-</Layout>
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>Claude Code Updates</title>
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <script is:inline set:html={`location.replace(${JSON.stringify(target)});`}></script>
+  </head>
+  <body>
+    <noscript>
+      <p>
+        JavaScriptが無効な場合は <a href={target}>{target}</a> へ移動してください。
+      </p>
+    </noscript>
+  </body>
+</html>

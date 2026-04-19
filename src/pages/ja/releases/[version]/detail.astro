@@ -20,15 +20,15 @@ const commands = (await getCollection('commands-ja')).filter(
 const dateFmt = new Intl.DateTimeFormat('ja-JP', { dateStyle: 'long' });
 ---
 
-<Layout title={`v${release.data.version} - Claude Code Updates`} locale="ja">
+<Layout title={`v${release.data.version} - Claude Code Updates`}>
   <a href="/ja/releases" class="link link-primary link-hover text-sm">← リリース一覧</a>
 
   <header class="mt-4 mb-8">
     <div class="flex items-baseline gap-4">
-      <h1 class="text-4xl font-bold tracking-tight">v{release.data.version}</h1>
+      <h1 class="text-4xl font-bold tracking-tight" transition:name={`release-version-${release.data.version}`}>v{release.data.version}</h1>
       <time class="text-sm text-base-content/60">{dateFmt.format(release.data.date)}</time>
     </div>
-    {release.data.highlights && <HighlightPills highlights={release.data.highlights} class="mt-4 flex flex-wrap gap-2" />}
+    {release.data.highlights && <HighlightPills highlights={release.data.highlights} class="mt-4 flex flex-wrap gap-2" transition:name={`release-highlights-${release.data.version}`} />}
   </header>
 
   <IntroducedCommands commands={commands} basePath="/ja/commands" />

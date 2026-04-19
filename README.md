@@ -1,43 +1,46 @@
-# Astro Starter Kit: Minimal
+# Claude Code Updates
 
-```sh
-npm create astro@latest -- --template minimal
+Claude Code の非公式リリース情報サイト。日本語版のみ公開する。
+
+## 検証環境
+
+https://ai-updates.katsuki104.workers.dev/ （Cloudflare Workers にデプロイ）
+
+## コンテンツ構成
+
+```
+src/content/
+├── releases/      ← 英語のリリースノート（データ原本・ビルド対象外）
+├── releases-ja/   ← 日本語版リリースノート（公開対象）
+├── commands/      ← 英語のコマンド情報（データ原本・ビルド対象外）
+└── commands-ja/   ← 日本語版コマンド情報（公開対象）
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+### データ原本を残す方針
 
-## 🚀 Project Structure
+`src/content/releases/` と `src/content/commands/` は**英語のデータ原本**として保持する。どのページからも参照されず、ビルド出力にも含まれないが、以下の理由で削除しない：
 
-Inside of your Astro project, you'll see the following folders and files:
+- `check-claude-code-releases` skill が npm から取り込んだ一次情報を格納する先
+- 日本語版 (`releases-ja/`, `commands-ja/`) の翻訳元・照合用
+- 将来的に英語ページを復活させる際のデータソース
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+`src/pages/` 配下に英語版ページ (`/releases`, `/commands`) は存在しない。ルーティングは `/ja/*` のみで、`/` にアクセスすると `/ja/releases` にリダイレクトする。
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+### highlights の扱い
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+- **`releases-ja/`**: `regenerate-release-highlights` skill で**厳選した項目のみ** `highlights` フィールドに設定（モデル追加・コマンド新規追加/削除・skill 追加など影響の大きい変更のみ）
+- **`releases/` (英語版)**: `check-claude-code-releases` が取り込み時に全 bullet を highlights として入れたまま（表示されないので問題なし）
 
-Any static assets, like images, can be placed in the `public/` directory.
+## 開発コマンド
 
-## 🧞 Commands
+| コマンド            | 用途                                         |
+| :------------------ | :------------------------------------------- |
+| `npm install`       | 依存パッケージをインストール                 |
+| `npm run dev`       | dev server 起動 (`localhost:4321`)           |
+| `npm run build`     | `./dist/` へビルド                           |
+| `npm run preview`   | ビルド結果をローカルプレビュー               |
 
-All commands are run from the root of the project, from a terminal:
+## 関連 skill
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- `check-claude-code-releases` — npm の新バージョンを検知してリリースノートを取り込む
+- `regenerate-release-highlights` — `releases-ja/` の highlights を再生成

@@ -15,7 +15,7 @@ const { command } = Astro.props;
 const { Content } = await render(command);
 ---
 
-<Layout title={`${command.data.name} - Claude Code Updates`} locale="ja">
+<Layout title={`${command.data.name} - Claude Code Updates`}>
   <a href="/ja/commands" class="link link-primary link-hover text-sm">← コマンド一覧</a>
 
   <header class="mt-4 mb-8">
