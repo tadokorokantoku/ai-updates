@@ -31,9 +31,9 @@ const dateFmt = new Intl.DateTimeFormat('ja-JP', { dateStyle: 'long' });
     {release.data.highlights && <HighlightPills highlights={release.data.highlights} class="mt-4 flex flex-wrap gap-2" />}
   </header>
 
+  <IntroducedCommands commands={commands} basePath="/ja/commands" />
+
   <article class="prose prose-slate max-w-none rounded-lg border border-slate-200 bg-white p-8">
     <Content />
   </article>
-
-  <IntroducedCommands commands={commands} basePath="/ja/commands" />
 </Layout>

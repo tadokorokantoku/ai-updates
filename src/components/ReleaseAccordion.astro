@@ -2,17 +2,20 @@
 import type { CollectionEntry } from 'astro:content';
 import HighlightPills from './HighlightPills.astro';
 import Chevron from './Chevron.astro';
+import IntroducedCommands from './IntroducedCommands.astro';
 import { renderInlineCode } from '../utils/inlineCode';
 
 type Release = CollectionEntry<'releases'> | CollectionEntry<'releases-ja'>;
-type RenderedRelease = { release: Release; Content: any };
+type Command = CollectionEntry<'commands'> | CollectionEntry<'commands-ja'>;
+type RenderedRelease = { release: Release; Content: any; commands: Command[] };
 
 interface Props {
   items: RenderedRelease[];
   basePath: string;
+  commandsBasePath: string;
   autoOpenLatest?: boolean;
 }
-const { items, basePath, autoOpenLatest = false } = Astro.props;
+const { items, basePath, commandsBasePath, autoOpenLatest = false } = Astro.props;
 const dateFmt = new Intl.DateTimeFormat('ja-JP', { dateStyle: 'long' });
 ---
 
@@ -22,7 +25,7 @@ const dateFmt = new Intl.DateTimeFormat('ja-JP', { dateStyle: 'long' });
   data-base-path={basePath}
   data-auto-open-latest={autoOpenLatest ? 'true' : 'false'}
 >
-  {items.map(({ release: r, Content }) => (
+  {items.map(({ release: r, Content, commands }) => (
     <li id={`release-${r.data.version}`} class="scroll-mt-32">
       <div
         class="release-card group rounded-lg border border-slate-200 bg-white transition-colors hover:border-accent-400 [&.open]:border-accent-400 [&.open]:shadow-md"
@@ -61,6 +64,7 @@ const dateFmt = new Intl.DateTimeFormat('ja-JP', { dateStyle: 'long' });
                   単独ページで開く →
                 </a>
               </div>
+              <IntroducedCommands commands={commands} basePath={commandsBasePath} />
               <article class="prose prose-slate prose-sm max-w-none">
                 <Content />
               </article>
