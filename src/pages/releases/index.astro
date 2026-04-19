@@ -1,11 +1,19 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 
 const releases = (await getCollection('releases')).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime()
 );
 const dateFmt = new Intl.DateTimeFormat('ja-JP', { dateStyle: 'long' });
+
+// Pre-render every release body so the index can expand cards in place.
+const items = await Promise.all(
+  releases.map(async (r) => {
+    const { Content } = await render(r);
+    return { release: r, Content };
+  })
+);
 
 // --- contribution heatmap ---
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -192,32 +200,165 @@ const dateFmtShort = new Intl.DateTimeFormat('ja-JP', { dateStyle: 'medium' });
         rect.addEventListener('click', () => {
           const versions = (rect.getAttribute('data-versions') || '').split(',').filter(Boolean);
           if (versions.length === 0) return;
-          const target = document.getElementById('release-' + versions[0]);
-          if (!target) return;
-          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          flash(target);
+          const version = versions[0];
           hide();
+          if (window.openRelease) {
+            window.openRelease(version, { scroll: true, push: true });
+          } else {
+            const target = document.getElementById('release-' + version);
+            target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+          flash(document.getElementById('release-' + version));
         });
       });
     })();
   </script>
 
-  <ol class="mt-8 space-y-3">
-    {releases.map((r) => (
-      <li id={`release-${r.data.version}`} class="scroll-mt-24 transition-colors duration-700">
-        <a
-          href={`/releases/${r.data.version}`}
-          class="flex items-baseline justify-between rounded-lg border border-slate-200 bg-white px-5 py-4 transition-colors hover:border-accent-400"
+  <ol class="mt-8 space-y-3" id="release-list">
+    {items.map(({ release: r, Content }) => (
+      <li id={`release-${r.data.version}`} class="scroll-mt-32">
+        <div
+          class="release-card group rounded-lg border border-slate-200 bg-white transition-colors hover:border-accent-400 [&.open]:border-accent-400 [&.open]:shadow-md"
+          data-version={r.data.version}
         >
-          <div class="flex items-baseline gap-4">
-            <span class="text-xl font-semibold">v{r.data.version}</span>
-            <span class="text-xs text-slate-500">{dateFmt.format(r.data.date)}</span>
+          <button
+            type="button"
+            class="release-toggle flex w-full cursor-pointer items-baseline justify-between gap-4 px-5 py-4 text-left"
+            aria-expanded="false"
+          >
+            <div class="flex items-baseline gap-4">
+              <svg
+                class="h-3 w-3 shrink-0 self-center text-slate-400 transition-transform group-[.open]:rotate-90"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M9 6l6 6-6 6" />
+              </svg>
+              <span class="text-xl font-semibold">v{r.data.version}</span>
+              <span class="text-xs text-slate-500">{dateFmt.format(r.data.date)}</span>
+            </div>
+            {r.data.highlights && r.data.highlights.length > 0 && (
+              <span class="hidden truncate text-xs text-slate-600 sm:inline">{r.data.highlights[0]}</span>
+            )}
+          </button>
+          <div class="release-body">
+            <div class="release-body-inner">
+              <div class="border-t border-slate-200 px-6 py-5">
+                <div class="mb-4 flex items-start justify-between gap-4">
+                  {r.data.highlights && r.data.highlights.length > 0 ? (
+                    <ul class="flex flex-wrap gap-2">
+                      {r.data.highlights.map((h) => (
+                        <li class="rounded-full bg-accent-100 px-3 py-1 text-xs text-accent-800">{h}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <span />
+                  )}
+                  <a
+                    href={`/releases/${r.data.version}/detail`}
+                    class="shrink-0 whitespace-nowrap text-xs text-slate-500 hover:text-accent-600"
+                  >
+                    単独ページで開く →
+                  </a>
+                </div>
+                <article class="prose prose-slate prose-sm max-w-none">
+                  <Content />
+                </article>
+              </div>
+            </div>
           </div>
-          {r.data.highlights && r.data.highlights.length > 0 && (
-            <span class="hidden text-xs text-slate-600 sm:inline">{r.data.highlights[0]}</span>
-          )}
-        </a>
+        </div>
       </li>
     ))}
   </ol>
+
+  <script is:inline>
+    (() => {
+      const cards = document.querySelectorAll('.release-card');
+      const byVersion = new Map();
+      cards.forEach((d) => byVersion.set(d.dataset.version, d));
+
+      const matchPath = () => {
+        const m = location.pathname.match(/^\/releases\/([^\/]+?)\/?$/);
+        return m ? decodeURIComponent(m[1]) : null;
+      };
+      const matchHash = () => {
+        const m = location.hash.match(/^#release-(.+)$/);
+        return m ? decodeURIComponent(m[1]) : null;
+      };
+
+      const findOpen = () => [...cards].find((d) => d.classList.contains('open')) || null;
+
+      const setOpen = (card, open) => {
+        card.classList.toggle('open', open);
+        const btn = card.querySelector('.release-toggle');
+        btn?.setAttribute('aria-expanded', String(open));
+      };
+
+      const openVersion = (version, { scroll = true, push = false } = {}) => {
+        const card = byVersion.get(version);
+        if (!card) return;
+        const opened = findOpen();
+        if (opened === card) return; // already open
+        if (opened) setOpen(opened, false);
+        setOpen(card, true);
+        if (push) history.pushState({ version }, '', `/releases/${version}`);
+        if (scroll) {
+          // Wait one frame so the height animation has started before scrolling
+          requestAnimationFrame(() => {
+            const li = card.closest('li');
+            li?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          });
+        }
+      };
+
+      const closeVersion = (card, { push = true } = {}) => {
+        if (!card.classList.contains('open')) return;
+        setOpen(card, false);
+        if (push) history.pushState({}, '', '/releases');
+      };
+
+      const closeAll = () => {
+        const open = findOpen();
+        if (open) closeVersion(open, { push: false });
+      };
+
+      window.openRelease = openVersion;
+
+      cards.forEach((card) => {
+        const button = card.querySelector('.release-toggle');
+        if (!button) return;
+        button.addEventListener('click', () => {
+          const version = card.dataset.version;
+          if (!version) return;
+          if (card.classList.contains('open')) {
+            closeVersion(card);
+          } else {
+            openVersion(version, { scroll: false, push: true });
+          }
+        });
+      });
+
+      window.addEventListener('popstate', () => {
+        const version = matchPath();
+        if (version) {
+          openVersion(version, { scroll: true });
+        } else {
+          closeAll();
+        }
+      });
+
+      // initial: open the card matching the URL.
+      // - matchPath: in-session pushState navigation
+      // - matchHash: arrived via /releases/[version]/index.astro redirect
+      const initial = matchPath() || matchHash();
+      if (initial) {
+        requestAnimationFrame(() => openVersion(initial, { scroll: true }));
+      }
+    })();
+  </script>
 </Layout>

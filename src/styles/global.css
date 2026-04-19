@@ -22,3 +22,23 @@
     display: none;
   }
 }
+
+/* Release card expand/collapse: grid-template-rows trick lets the body
+   animate between 0 and its natural height without measuring in JS. */
+.release-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 320ms cubic-bezier(0.32, 0.72, 0.24, 1);
+}
+.release-body > .release-body-inner {
+  overflow: hidden;
+}
+.release-card.open > .release-body {
+  grid-template-rows: 1fr;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .release-body {
+    transition: none;
+  }
+}

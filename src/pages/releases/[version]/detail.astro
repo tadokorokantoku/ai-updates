@@ -1,0 +1,63 @@
+---
+// Standalone single-version page. URL: /releases/{version}/detail
+// /releases/{v} (no trailing /detail) is reserved for the inline list view
+// (via pushState in /releases/index.astro) and serves a redirect to it.
+import Layout from '../../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const releases = await getCollection('releases');
+  return releases.map((release) => ({
+    params: { version: release.data.version },
+    props: { release },
+  }));
+}
+
+const { release } = Astro.props;
+const { Content } = await render(release);
+const commands = (await getCollection('commands')).filter(
+  (c) => c.data.introducedIn === release.data.version
+);
+const dateFmt = new Intl.DateTimeFormat('ja-JP', { dateStyle: 'long' });
+---
+
+<Layout title={`v${release.data.version} - Claude Code Updates`}>
+  <a href="/releases" class="text-sm text-accent-600 hover:underline">← リリース一覧</a>
+
+  <header class="mt-4 mb-8">
+    <div class="flex items-baseline gap-4">
+      <h1 class="text-4xl font-bold tracking-tight">v{release.data.version}</h1>
+      <time class="text-sm text-slate-500">{dateFmt.format(release.data.date)}</time>
+    </div>
+    {release.data.highlights && (
+      <ul class="mt-4 flex flex-wrap gap-2">
+        {release.data.highlights.map((h) => (
+          <li class="rounded-full bg-accent-100 px-3 py-1 text-xs text-accent-800">{h}</li>
+        ))}
+      </ul>
+    )}
+  </header>
+
+  <article class="prose prose-slate max-w-none rounded-lg border border-slate-200 bg-white p-8">
+    <Content />
+  </article>
+
+  {commands.length > 0 && (
+    <section class="mt-10">
+      <h2 class="text-xl font-semibold">このバージョンで導入されたコマンド</h2>
+      <ul class="mt-4 space-y-2">
+        {commands.map((c) => (
+          <li>
+            <a
+              href={`/commands/${c.id}`}
+              class="block rounded-lg border border-slate-200 bg-white px-4 py-3 hover:border-accent-400"
+            >
+              <code class="font-mono text-sm font-semibold text-accent-700">{c.data.name}</code>
+              <span class="ml-3 text-sm text-slate-600">{c.data.description}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</Layout>

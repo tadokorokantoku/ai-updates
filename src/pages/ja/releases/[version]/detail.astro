@@ -1,9 +1,10 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+// Standalone single-version page. URL: /ja/releases/{version}/detail
+import Layout from '../../../../layouts/Layout.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
-  const releases = await getCollection('releases');
+  const releases = await getCollection('releases-ja');
   return releases.map((release) => ({
     params: { version: release.data.version },
     props: { release },
@@ -12,14 +13,14 @@ export async function getStaticPaths() {
 
 const { release } = Astro.props;
 const { Content } = await render(release);
-const commands = (await getCollection('commands')).filter(
+const commands = (await getCollection('commands-ja')).filter(
   (c) => c.data.introducedIn === release.data.version
 );
 const dateFmt = new Intl.DateTimeFormat('ja-JP', { dateStyle: 'long' });
 ---
 
-<Layout title={`v${release.data.version} - Claude Code Updates`}>
-  <a href="/releases" class="text-sm text-accent-600 hover:underline">← リリース一覧</a>
+<Layout title={`v${release.data.version} - Claude Code Updates`} locale="ja">
+  <a href="/ja/releases" class="text-sm text-accent-600 hover:underline">← リリース一覧</a>
 
   <header class="mt-4 mb-8">
     <div class="flex items-baseline gap-4">
@@ -46,7 +47,7 @@ const dateFmt = new Intl.DateTimeFormat('ja-JP', { dateStyle: 'long' });
         {commands.map((c) => (
           <li>
             <a
-              href={`/commands/${c.id}`}
+              href={`/ja/commands/${c.id}`}
               class="block rounded-lg border border-slate-200 bg-white px-4 py-3 hover:border-accent-400"
             >
               <code class="font-mono text-sm font-semibold text-accent-700">{c.data.name}</code>

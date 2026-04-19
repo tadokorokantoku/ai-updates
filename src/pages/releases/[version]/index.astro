@@ -1,0 +1,30 @@
+---
+// /releases/{version} は inline 一覧の pushState 用 URL。
+// リロードや戻るで直接アクセスされた場合、対応するカードを開いた状態で
+// inline view を表示できるよう /releases#release-{v} へリダイレクトする。
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const releases = await getCollection('releases');
+  return releases.map((r) => ({ params: { version: r.data.version } }));
+}
+
+const { version } = Astro.params;
+const target = `/releases#release-${version}`;
+---
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>v{version} - Claude Code Updates</title>
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <script is:inline set:html={`location.replace(${JSON.stringify(target)});`}></script>
+  </head>
+  <body>
+    <noscript>
+      <p>
+        JavaScriptが無効な場合は <a href={target}>{target}</a> へ移動してください。
+      </p>
+    </noscript>
+  </body>
+</html>

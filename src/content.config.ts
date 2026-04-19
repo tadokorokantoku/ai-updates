@@ -22,4 +22,30 @@ const commands = defineCollection({
   }),
 });
 
-export const collections = { releases, commands };
+const releasesJa = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/releases-ja' }),
+  schema: z.object({
+    version: z.string(),
+    date: z.coerce.date(),
+    highlights: z.array(z.string()).optional(),
+  }),
+});
+
+const commandsJa = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/commands-ja' }),
+  schema: z.object({
+    name: z.string(),
+    introducedIn: z.string(),
+    description: z.string(),
+    deprecated: z.boolean().default(false),
+    deprecatedIn: z.string().optional(),
+    category: z.enum(['slash', 'cli', 'flag']).default('slash'),
+  }),
+});
+
+export const collections = {
+  releases,
+  commands,
+  'releases-ja': releasesJa,
+  'commands-ja': commandsJa,
+};

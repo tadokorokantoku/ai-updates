@@ -1,0 +1,37 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+
+const releases = (await getCollection('releases-ja')).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+const latest = releases[0];
+const { Content } = await render(latest);
+const dateFmt = new Intl.DateTimeFormat('ja-JP', { dateStyle: 'long' });
+---
+
+<Layout title="Claude Code Updates - 最新リリース" locale="ja">
+  <section class="mb-10">
+    <p class="text-sm text-slate-500">最新リリース</p>
+    <div class="mt-2 flex items-baseline gap-4">
+      <h1 class="text-4xl font-bold tracking-tight">v{latest.data.version}</h1>
+      <time class="text-sm text-slate-500">{dateFmt.format(latest.data.date)}</time>
+    </div>
+    {latest.data.highlights && (
+      <ul class="mt-4 flex flex-wrap gap-2">
+        {latest.data.highlights.map((h) => (
+          <li class="rounded-full bg-accent-100 px-3 py-1 text-xs text-accent-800">{h}</li>
+        ))}
+      </ul>
+    )}
+  </section>
+
+  <article class="prose prose-slate max-w-none rounded-lg border border-slate-200 bg-white p-8">
+    <Content />
+  </article>
+
+  <div class="mt-6 flex justify-between text-sm">
+    <a href={`/ja/releases/${latest.data.version}`} class="text-accent-600 hover:underline">このリリースの詳細 →</a>
+    <a href="/ja/releases" class="text-accent-600 hover:underline">過去のリリース一覧 →</a>
+  </div>
+</Layout>

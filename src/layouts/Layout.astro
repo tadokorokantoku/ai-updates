@@ -6,14 +6,16 @@ import { DEFAULT_THEME, themeStyle, type ThemeKey } from '../themes';
 interface Props {
   title?: string;
   theme?: ThemeKey;
+  locale?: 'en' | 'ja';
 }
 
-const { title = 'Claude Code Updates', theme = DEFAULT_THEME } = Astro.props;
+const { title = 'Claude Code Updates', theme = DEFAULT_THEME, locale = 'en' } = Astro.props;
 
-const releases = (await getCollection('releases')).sort(
+const prefix = locale === 'ja' ? '/ja' : '';
+const releases = (await getCollection(locale === 'ja' ? 'releases-ja' : 'releases')).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime()
 );
-const commands = (await getCollection('commands')).sort((a, b) =>
+const commands = (await getCollection(locale === 'ja' ? 'commands-ja' : 'commands')).sort((a, b) =>
   a.data.name.localeCompare(b.data.name)
 );
 
@@ -47,9 +49,12 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isActive = (href: string) => path === href.replace(/\/$/, '');
 
 const releasesSectionOpen =
-  isActive('/releases') || releases.some((r) => isActive(`/releases/${r.data.version}`));
+  isActive(`${prefix}/releases`) || releases.some((r) => isActive(`${prefix}/releases/${r.data.version}`));
 const commandsSectionOpen =
-  isActive('/commands') || commands.some((c) => isActive(`/commands/${c.id}`));
+  isActive(`${prefix}/commands`) || commands.some((c) => isActive(`${prefix}/commands/${c.id}`));
+
+const langSwitchHref = locale === 'ja' ? '/' : '/ja/';
+const langSwitchLabel = locale === 'ja' ? 'EN' : '日本語';
 ---
 
 <html lang="ja">
@@ -63,15 +68,23 @@ const commandsSectionOpen =
   <body class="min-h-screen bg-slate-50 text-slate-900 antialiased" style={themeStyle(theme)}>
     <header class="sticky top-0 z-10 border-b border-slate-200 bg-white/90 backdrop-blur">
       <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
-        <a href="/" class="text-base font-bold tracking-tight">Claude Code Updates</a>
-        <a
-          href="https://github.com/anthropics/claude-code"
-          class="text-xs text-slate-500 hover:text-accent-600"
-          target="_blank"
-          rel="noopener"
-        >
-          GitHub →
-        </a>
+        <a href={prefix || '/'} class="text-base font-bold tracking-tight">Claude Code Updates</a>
+        <div class="flex items-center gap-4">
+          <a
+            href={langSwitchHref}
+            class="text-xs text-slate-500 hover:text-accent-600"
+          >
+            {langSwitchLabel}
+          </a>
+          <a
+            href="https://github.com/anthropics/claude-code"
+            class="text-xs text-slate-500 hover:text-accent-600"
+            target="_blank"
+            rel="noopener"
+          >
+            GitHub →
+          </a>
+        </div>
       </div>
     </header>
 
@@ -95,7 +108,7 @@ const commandsSectionOpen =
             </summary>
             <div class="mt-1 ml-4 border-l border-slate-200 pl-2">
               <a
-                href="/releases"
+                href={`${prefix}/releases`}
                 class:list={[
                   'block rounded px-2 py-1 transition-colors',
                   isActive('/releases')
@@ -107,7 +120,7 @@ const commandsSectionOpen =
               </a>
               <div class="mt-1 space-y-1">
                 {releaseGroups.map(([groupName, items]) => {
-                  const groupOpen = items.some((r) => isActive(`/releases/${r.data.version}`));
+                  const groupOpen = items.some((r) => isActive(`${prefix}/releases/${r.data.version}`));
                   return (
                     <details open={groupOpen} class="group/grp">
                       <summary class="flex cursor-pointer items-center gap-1 rounded px-2 py-1 text-xs font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-700">
@@ -126,7 +139,7 @@ const commandsSectionOpen =
                       </summary>
                       <ul class="mt-0.5 ml-4 space-y-0.5 border-l border-slate-200 pl-2">
                         {items.map((r) => {
-                          const href = `/releases/${r.data.version}`;
+                          const href = `${prefix}/releases/${r.data.version}`;
                           return (
                             <li>
                               <a
@@ -168,7 +181,7 @@ const commandsSectionOpen =
             </summary>
             <div class="mt-1 ml-4 border-l border-slate-200 pl-2">
               <a
-                href="/commands"
+                href={`${prefix}/commands`}
                 class:list={[
                   'block rounded px-2 py-1 transition-colors',
                   isActive('/commands')
@@ -180,7 +193,7 @@ const commandsSectionOpen =
               </a>
               <div class="mt-1 space-y-1">
                 {commandGroups.map(([cat, items]) => {
-                  const groupOpen = items.some((c) => isActive(`/commands/${c.id}`));
+                  const groupOpen = items.some((c) => isActive(`${prefix}/commands/${c.id}`));
                   return (
                     <details open={groupOpen} class="group/grp">
                       <summary class="flex cursor-pointer items-center gap-1 rounded px-2 py-1 text-xs font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-700">
@@ -199,7 +212,7 @@ const commandsSectionOpen =
                       </summary>
                       <ul class="mt-0.5 ml-4 space-y-0.5 border-l border-slate-200 pl-2">
                         {items.map((c) => {
-                          const href = `/commands/${c.id}`;
+                          const href = `${prefix}/commands/${c.id}`;
                           return (
                             <li>
                               <a
