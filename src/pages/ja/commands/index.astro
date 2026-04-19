@@ -1,6 +1,7 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import { renderInlineCode } from '../../../utils/inlineCode';
 
 const all = await getCollection('commands-ja');
 const active = all.filter((c) => !c.data.deprecated)
@@ -29,7 +30,7 @@ const deprecated = all.filter((c) => c.data.deprecated)
               {c.data.name}
             </a>
           </td>
-          <td class="px-4 py-3 text-slate-700">{c.data.description}</td>
+          <td class="px-4 py-3 text-slate-700" set:html={renderInlineCode(c.data.description)}></td>
           <td class="px-4 py-3 whitespace-nowrap">
             <a href={`/ja/releases/${c.data.introducedIn}`} class="text-accent-600 hover:underline">
               v{c.data.introducedIn}

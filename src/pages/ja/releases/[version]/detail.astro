@@ -2,6 +2,7 @@
 // Standalone single-version page. URL: /ja/releases/{version}/detail
 import Layout from '../../../../layouts/Layout.astro';
 import { getCollection, render } from 'astro:content';
+import { renderInlineCode } from '../../../../utils/inlineCode';
 
 export async function getStaticPaths() {
   const releases = await getCollection('releases-ja');
@@ -30,7 +31,7 @@ const dateFmt = new Intl.DateTimeFormat('ja-JP', { dateStyle: 'long' });
     {release.data.highlights && (
       <ul class="mt-4 flex flex-wrap gap-2">
         {release.data.highlights.map((h) => (
-          <li class="rounded-full bg-accent-100 px-3 py-1 text-xs text-accent-800">{h}</li>
+          <li class="rounded-full bg-accent-100 px-3 py-1 text-xs text-accent-800" set:html={renderInlineCode(h)}></li>
         ))}
       </ul>
     )}
@@ -51,7 +52,7 @@ const dateFmt = new Intl.DateTimeFormat('ja-JP', { dateStyle: 'long' });
               class="block rounded-lg border border-slate-200 bg-white px-4 py-3 hover:border-accent-400"
             >
               <code class="font-mono text-sm font-semibold text-accent-700">{c.data.name}</code>
-              <span class="ml-3 text-sm text-slate-600">{c.data.description}</span>
+              <span class="ml-3 text-sm text-slate-600" set:html={renderInlineCode(c.data.description)}></span>
             </a>
           </li>
         ))}

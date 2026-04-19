@@ -42,3 +42,15 @@
     transition: none;
   }
 }
+
+/* Inline `code` styling outside of `prose` contexts (pills, descriptions,
+   sidebars). prose already styles code itself. */
+:where(:not(.prose, .prose *)) > code,
+:where(:not(.prose, .prose *)) > * code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.9em;
+  padding: 0.1em 0.35em;
+  border-radius: 0.25rem;
+  background: rgb(0 0 0 / 0.06);
+  color: inherit;
+}

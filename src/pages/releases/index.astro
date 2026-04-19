@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getCollection, render } from 'astro:content';
+import { renderInlineCode } from '../../utils/inlineCode';
 
 const releases = (await getCollection('releases')).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime()
@@ -226,7 +227,7 @@ const dateFmtShort = new Intl.DateTimeFormat('ja-JP', { dateStyle: 'medium' });
             class="release-toggle flex w-full cursor-pointer items-baseline justify-between gap-4 px-5 py-4 text-left"
             aria-expanded="false"
           >
-            <div class="flex items-baseline gap-4">
+            <div class="flex shrink-0 items-baseline gap-4">
               <svg
                 class="h-3 w-3 shrink-0 self-center text-slate-400 transition-transform group-[.open]:rotate-90"
                 viewBox="0 0 24 24"
@@ -239,10 +240,10 @@ const dateFmtShort = new Intl.DateTimeFormat('ja-JP', { dateStyle: 'medium' });
                 <path d="M9 6l6 6-6 6" />
               </svg>
               <span class="text-xl font-semibold">v{r.data.version}</span>
-              <span class="text-xs text-slate-500">{dateFmt.format(r.data.date)}</span>
+              <span class="whitespace-nowrap text-xs text-slate-500">{dateFmt.format(r.data.date)}</span>
             </div>
             {r.data.highlights && r.data.highlights.length > 0 && (
-              <span class="hidden truncate text-xs text-slate-600 sm:inline">{r.data.highlights[0]}</span>
+              <span class="hidden min-w-0 flex-1 truncate text-right text-xs text-slate-600 sm:inline" set:html={renderInlineCode(r.data.highlights[0])}></span>
             )}
           </button>
           <div class="release-body">
@@ -252,7 +253,7 @@ const dateFmtShort = new Intl.DateTimeFormat('ja-JP', { dateStyle: 'medium' });
                   {r.data.highlights && r.data.highlights.length > 0 ? (
                     <ul class="flex flex-wrap gap-2">
                       {r.data.highlights.map((h) => (
-                        <li class="rounded-full bg-accent-100 px-3 py-1 text-xs text-accent-800">{h}</li>
+                        <li class="rounded-full bg-accent-100 px-3 py-1 text-xs text-accent-800" set:html={renderInlineCode(h)}></li>
                       ))}
                     </ul>
                   ) : (
