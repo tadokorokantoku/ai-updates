@@ -42,12 +42,24 @@ for V in $(cat /tmp/new-versions.txt); do
 done
 ```
 
-リリースノート本文の取得元（優先順）：
-1. https://docs.claude.com/en/release-notes/claude-code （公式）を WebFetch
-2. GitHub `anthropics/claude-code` の releases（あれば）
-3. npm パッケージ内の `CHANGELOG.md`
+リリースノート本文は **`gh release view` から取る**のが最も確実：
 
-いずれも取れない場合、バンドル分析（ステップ 3）だけで代用し、本文は最低限の bullet で作成。
+```bash
+for V in $(cat /tmp/new-versions.txt); do
+  gh release view "v$V" --repo anthropics/claude-code --json body --jq '.body' \
+    > "/tmp/release-$V.md"
+done
+```
+
+- GitHub Releases に該当バージョンが全て揃っている（npm publish 後 1〜2 時間で反映される）
+- 該当バージョンの本文だけが返るので、大きな CHANGELOG 全体を LLM に要約させて別バージョンの内容を誤返却するリスクがない
+- Actions の runner は `GITHUB_TOKEN` で `gh` 認証済み
+
+**フォールバック順**（`gh release view` が失敗した場合のみ）：
+1. `gh api repos/anthropics/claude-code/contents/CHANGELOG.md --jq '.content' | base64 -d` で raw CHANGELOG を取り、該当バージョンのセクションだけ `awk` で切り出す
+2. `npm diff --diff=@anthropic-ai/claude-code@PREV --diff=@anthropic-ai/claude-code@NEW` でコード差分を確認（ただし 2.1.113+ はネイティブバイナリ配信なのでメインパッケージの diff には薄いラッパ層しか映らない点に注意）
+
+WebFetch は大きな CHANGELOG 全体に対して要約を返すため誤った内容を返すことがある。**リリースノート取得には使わない。**
 
 ### 3. バンドルから新コマンドを抽出
 
